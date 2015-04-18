@@ -273,3 +273,48 @@ function makeTextSprite( message, parameters )
 	sprite.scale.set(100,50,1.0);
 	return sprite;	
 }*/
+
+
+function BlobPet(){
+	this.health = 10;
+	this.damage = 1;
+}
+BlobPet.prototype.takeDamage = function(){
+
+}
+BlobPet.prototype.dealDamage = function( creature ){
+	creature.takeDamage( this.damage );
+}
+
+BlobPet.prototype.drawBody = function( x, y ){
+	circle = new b2CircleShape();
+	circle.position.Set( 0, 0 );
+	circle.radius = 0.25;
+	
+	var particleSystem = world.CreateParticleSystem(currentScene.map.psd);
+	pgd = new b2ParticleGroupDef();
+	pgd.flags = b2_elasticParticle | b2_tensileParticle;
+	pgd.groupFlags = b2_solidParticleGroup;
+	pgd.shape = circle;
+	pgd.color.Set(0, 255, 0, 255);
+	pgd.position.Set( x, y );
+	var particleGroup = particleSystem.CreateParticleGroup(pgd);
+	particleGroup.userData = new Blob();
+	currentScene.updateList.push( createUpdate( function( self ){
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+			self.delay = 100;
+		}
+		var particleSystem = self.args.particleSystem;	
+		
+		var positions = particleSystem.GetPositionBuffer();
+		
+		if ( directionFromTo( positions[ 0 ], hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
+			particleGroup.ApplyForce( new b2Vec2( 110, 170 ), { x: positions[0], y: positions[1] } );
+		}
+		else{
+			particleGroup.ApplyForce( new b2Vec2( -110, 170 ), { x: positions[0], y: positions[1] } );
+		}
+	}, 0, 100, { particleSystem: particleSystem } ) );
+}
