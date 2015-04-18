@@ -3,8 +3,13 @@ function Sword(){
 	this.bodyLower;
 	this.size = 0.4;
 
+}/*
+function Hero( fixture ){
+	this.health = 2;
+	this.damage = 0;
+	this.fixture = fixture;
 }
-
+*/
 Sword.prototype.drawBody = function(x,y)
 {
 	var bodyDef = new b2BodyDef(x,y);
@@ -59,7 +64,7 @@ Sword.prototype.drawBody = function(x,y)
 }
 
 function Hero(){
-	 this.health = 10;
+	 this.health = 2;
 	 this.damage = 0;
 	
 	 this.bodyTorso = null;
@@ -68,6 +73,7 @@ function Hero(){
 	 this.bodyRightLeg;
 	 this.bodyLeftArm;
 	 this.bodyRightArm;
+	 this.collisionList = [];
 	 this.size = 0.4;
 }
 
@@ -91,8 +97,8 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x + 1*this.size, y);
 	this.bodyTorso = world.CreateBody(bodyDef);
-	this.bodyTorso.CreateFixtureFromDef(fixtureDef);
-
+	var fixture = this.bodyTorso.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
 
 	//Left leg
 	jd = new b2RevoluteJointDef();
@@ -106,7 +112,8 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x+2.5*this.size, y-5*this.size);
 	this.bodyLeftLeg = world.CreateBody(bodyDef);
-	this.bodyLeftLeg.CreateFixtureFromDef(fixtureDef);
+	var fixture = this.bodyLeftLeg.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
 
 	jd.enableLimit = true;
 	jd.lowerAngle = -45 * Math.PI / 180;
@@ -127,7 +134,8 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x-0.5*this.size, y-5*this.size);
 	this.bodyRightLeg = world.CreateBody(bodyDef);
-	this.bodyRightLeg.CreateFixtureFromDef(fixtureDef);
+	var fixture = this.bodyRightLeg.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
 
 	jd.enableLimit = true;
 	jd.lowerAngle = -45 * Math.PI / 180;
@@ -148,7 +156,8 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x-2.5*this.size, y);
 	this.bodyLeftArm = world.CreateBody(bodyDef);
-	this.bodyLeftArm.CreateFixtureFromDef(fixtureDef);
+	var fixture = this.bodyLeftArm.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
 
 	var anchor = new b2Vec2(x-2.5*this.size, y+2*this.size);
 	jd.InitializeAndCreate(this.bodyTorso, this.bodyLeftArm, anchor);
@@ -163,7 +172,8 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x+4.5*this.size, y);
 	this.bodyRightArm = world.CreateBody(bodyDef);
-	this.bodyRightArm.CreateFixtureFromDef(fixtureDef);
+	var fixture = this.bodyRightArm.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
 
 	jd.enableLimit = true;
 	jd.lowerAngle = 0 * Math.PI / 180;
@@ -182,7 +192,8 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x+1*this.size, y+4.5*this.size);
 	this.bodyHead = world.CreateBody(bodyDef);
-	this.bodyHead.CreateFixtureFromDef(fixtureDef);
+	var fixture = this.bodyHead.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
 
 	jd.enableLimit = true;
 	jd.lowerAngle = -5 * Math.PI / 180;
@@ -193,4 +204,31 @@ Hero.prototype.drawBody = function(x,y){
 	
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
+	
+	this.collisionList = [
+		//TOP INDEX = ORIGIN
+		this.bodyTorso,
+		this.bodyHead,
+		this.bodyLeftLeg,
+		this.bodyRightLeg,
+		this.bodyLeftArm,
+		this.bodyRightArm
+	];
 }
+
+Hero.prototype.collideWith = function( fixture ){
+	
+}
+Hero.prototype.takeDamage = function( damage ){
+	this.health -= damage;
+	if ( this.health <= 0 )
+	{
+		console.log( "DESTROYING" );
+		destroyBodies( this.collisionList );
+		//this.fixture.body.DestroyFixture(this.fixture);
+		
+		
+		//world.DestroyJoint(this.joint);
+	}
+}
+
