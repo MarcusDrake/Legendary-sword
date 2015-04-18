@@ -216,7 +216,7 @@ Hero.prototype.drawBody = function(x,y){
 	];
 }
 
-Hero.prototype.collideWith = function( creature ){
+Hero.prototype.collideWith = function( fixture ){
 	
 }
 Hero.prototype.takeDamage = function( damage ){
