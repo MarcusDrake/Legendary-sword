@@ -3,7 +3,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
-	this.axisOffset = 80;
+	this.axisOffset = 30;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -50,10 +50,11 @@ Map.prototype.destroyLiquid = function( x, y ){
 	}
 	var shape = new b2CircleShape;
     shape.position = {x:x,y:y};
-    shape.radius = 0.2;
+    shape.radius = 3.5;
     var xf = new b2Transform;
     xf.SetIdentity();
 	this.grid[ x ][ y ].content.DestroyParticlesInShape(shape, xf);
+	this.grid[ x ][ y ].content = undefined;
 }
 Map.prototype.destroyRamp = function( x, y ){
 	//destroyBody( this.grid[ x ][ y ].content );
@@ -191,8 +192,8 @@ Map.prototype.createBlock = function( x, y, type ){
 Map.prototype.createLiquid = function( x, y, type ){
 	// type = LIQUID_WATER or LIQUID_LAVA
 	var box = new b2PolygonShape();
-	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2(x + 0, y + 0), 0);
-
+	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2( x, y ), 0);
+	this.particleSystem.SetRadius( 0.13 );
 	var particleGroupDef = new b2ParticleGroupDef();
 	particleGroupDef.shape = box;
 	
