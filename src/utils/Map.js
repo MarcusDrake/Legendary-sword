@@ -3,7 +3,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
-	this.axisOffset = 30;
+	this.axisOffset = 80;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
