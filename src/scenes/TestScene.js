@@ -1,6 +1,6 @@
 function TestScene() {
 	//var data = res.compiledExample;
-	this.data = res.test;
+	this.data = res.map1;
 	
 	camera.position.x = 4;
 	camera.position.y = 4;
