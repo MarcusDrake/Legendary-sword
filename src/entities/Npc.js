@@ -296,7 +296,7 @@ BlobPet.prototype.drawBody = function( x, y ){
 	pgd.flags = b2_elasticParticle | b2_tensileParticle;
 	pgd.groupFlags = b2_solidParticleGroup;
 	pgd.shape = circle;
-	pgd.color.Set(0, 255, 0, 255);
+	pgd.color.Set(255, 0, 255, 255);
 	pgd.position.Set( x, y );
 	var particleGroup = particleSystem.CreateParticleGroup(pgd);
 	particleGroup.userData = new Blob();
