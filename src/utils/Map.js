@@ -292,11 +292,6 @@ Map.prototype.createCharacter = function( x, y, type ){
 			var character = new Blob( {x:x,y:y} );
 			character.drawBody( this.bd, this.ground );
 			break;
-		case CHARACTER_PETBLOB :
-			// TODO - separate from BLOB
-			var blob = new Blob( {x:x,y:y} );
-			blob.drawBody( this.bd, this.ground );
-			var character = blob;
 			
 		case  CHARACTER_BLACKSMITH :
 			character = new Blacksmith();
