@@ -190,7 +190,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 	particleGroupDef.shape = box;
 	//particleGroupDef.color.Set(0, 0, 255, 255);
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
-<<<<<<< HEAD
+
 	
 	switch( type ) {
 		case LIQUID_WATER :
@@ -200,9 +200,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 		// TODO
 		break;
 	}
-=======
-	return { x:x, x:y};
->>>>>>> 19b391369d333f5012f4a4b5ccbb76bc5f336bd8
+	return this.particleSystem;
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
