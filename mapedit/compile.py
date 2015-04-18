@@ -52,9 +52,10 @@ if os.path.isdir( string_path ) :
     tile_width = dimensions[ 0 ] / tile_size
     tile_height = dimensions[ 1 ] / tile_size
     grid = []
-    for i in range ( 0, tile_width ):
+    
+    for x in range ( 0, tile_width ):
         row = []
-        for i in range ( 0, tile_height ):
+        for y in range ( 0, tile_height ):
             dictionary = {}
             for file in files :
                 data_name = file.replace( map_name, '' )
@@ -63,8 +64,9 @@ if os.path.isdir( string_path ) :
                 data_name = data_name.replace( '.jpg', '' )
                 #dictionary[ data_name ] = False
             row.append( dictionary )
+        y = 0
         grid.append( row )
-    
+        
     for file in files :
         if file.startswith( map_name ) :
             current_image = Image.open( string_path + "/" + file )
@@ -86,12 +88,13 @@ if os.path.isdir( string_path ) :
             while y < current_image.size[ 1 ] :
                 x = 0
                 while x < current_image.size[ 0 ] :
-                    current_pixel = pixels[ x + ( y * current_image.size[ 1 ] ) ]
+                    current_pixel = pixels[ x + ( y * current_image.size[ 0 ] ) ]
                     current_tile = ( int( math.floor( x / tile_size ) ), int( math.floor( y / tile_size ) ) )
                     if current_pixel[ 3 ] != 0 :
                         grid[ current_tile[ 0 ] ][ current_tile[ 1 ] ][ data_name ] = True
                     x += 1
                 y += 1
+print len( grid ), len( grid[0] )
 data = {
 	"metadata": {
 		"files" : array_files,

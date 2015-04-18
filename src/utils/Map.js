@@ -9,6 +9,7 @@ function Map( grid ) {
 	this.bd.position.Set(0, 1);
 	this.body = world.CreateBody(this.bd);
 	this.psd = new b2ParticleSystemDef();
+	
 	this.psd.radius = 0.045;
 	this.psd.dampingStrength = 0.2;
 	this.particleSystem = world.CreateParticleSystem(this.psd);
@@ -173,39 +174,49 @@ Map.prototype.createCharacter = function( x, y, type ){
 				bd.position.Set( x, yOffset + 0.05 );
 				var body = world.CreateBody( bd );
 				var fixture = body.CreateFixtureFromDef( fixtureDef );
-
+				currentScene.player = fixture;
+				fixture.userData = {
+					type: type
+				}
 				var anchor = new b2Vec2(x, yOffset );
 				jd.InitializeAndCreate(prevBody, body, anchor);
 				prevBody = body;
 			}
 			break;
 		case CHARACTER_BLOB :
-			var circle = new b2CircleShape();
-			circle.radius = 0.4;
-			fd = new b2FixtureDef();
-			fd.shape = circle;
-			fd.density = 100;
-			bd = new b2BodyDef();
-			bd.type = b2_dynamicBody;
-			bd.position.Set( x, y );
+			circle = new b2CircleShape();
+			circle.position.Set( 0, 0 );
+			circle.radius = 0.25;
 			
-			body = world.CreateBody(bd);
 			
-			var fixture = body.CreateFixtureFromDef(fd);
-			console.log( currentScene );
+			var particleSystem = world.CreateParticleSystem(this.psd);
+			pgd = new b2ParticleGroupDef();
+			pgd.flags = b2_elasticParticle | b2_tensileParticle;
+			pgd.groupFlags = b2_solidParticleGroup;
+			pgd.shape = circle;
+			console.log( pgd );
+			pgd.color.Set(0, 255, 0, 255);
+			pgd.position.Set( x, y );
+			var particleGroup = particleSystem.CreateParticleGroup(pgd);
+			
 			currentScene.updateList.push( createUpdate( function( self ){
 				if ( self.iterations == 0 )
 				{
 					self.iterations = 1;
-					self.delay = 300;
+					self.delay = 100;
 				}
+				var particleSystem = self.args.particleSystem;	
+				var positions = particleSystem.GetPositionBuffer();
 				
-				console.log( "UPDATE" );
-			}, 1, 300 ) );
+				if ( directionFromTo( positions[ 0 ], currentScene.player.body.GetPosition().x ) == "right" ) {
+					particleGroup.ApplyForce( new b2Vec2( 110, 170 ), { x: positions[0], y: positions[1] } );
+				}
+				else{
+					particleGroup.ApplyForce( new b2Vec2( -110, 170 ), { x: positions[0], y: positions[1] } );
+				}
+			}, 0, 100, { particleGroup: particleGroup, particleSystem: particleSystem, pgd : pgd } ) );
 			
 			break;
 	}
-	fixture.userData = {
-		type: type
-	}
+	
 }

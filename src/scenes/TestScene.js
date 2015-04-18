@@ -19,6 +19,8 @@ function TestScene() {
 }
 
 TestScene.prototype.updateList = [];
+TestScene.prototype.player = {};
+TestScene.prototype.sword = {};
 
 TestScene.prototype.init = function() {
 	this.map = new Map( this.data.grid );
