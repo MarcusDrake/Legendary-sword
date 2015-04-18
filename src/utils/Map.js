@@ -38,7 +38,7 @@ Map.prototype.shouldDraw = function( x, y ){
 Map.prototype.destroyBlock = function( x, y ){
 	if ( this.grid[ x ][ y ].content == undefined )
 	{
-		return;
+		return;this.currentAxis
 	}
 	destroyBody( this.grid[ x ][ y ].content );
 	this.grid[ x ][ y ].content = undefined;
