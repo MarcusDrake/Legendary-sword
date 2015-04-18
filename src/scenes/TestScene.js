@@ -6,7 +6,7 @@ function TestScene() {
 	camera.position.y = 4;
 	camera.position.z = 12;
 	
-	world.SetContactListener(this);
+	world.SetContactListener( this );
 	
 	this.updateList.push( createUpdate( function( self ){
 		world.Step(timeStep, velocityIterations, positionIterations);
@@ -27,10 +27,31 @@ TestScene.prototype.init = function() {
 	this.map.readGrid();
 }
 
-TestScene.prototype.BeginContactBody = function( contact ) {
-	baseContacts( contact );
-	console.log(contact.GetFixtureA(), contact.GetFixtureB());
+TestScene.prototype.BeginContact = function( contact ) {
+	console.log( contact );
+	var fixtureA = contact.GetFixtureA();
+	var fixtureB = contact.GetFixtureB();
+	if ( fixtureA.userData != undefined && fixtureA.userData != fixtureB.userData )
+	{
+		console.log( fixtureA, fixtureB );
+	}
+	
+	
 };
+
+TestScene.prototype.BeginContactBody = function( contact ) {
+	console.log( contact.GetManifold() );
+	var fixtureA = contact.GetFixtureA();
+	var fixtureB = contact.GetFixtureB();
+	if ( fixtureA.userData != undefined && fixtureA.userData != fixtureB.userData )
+	{
+		console.log( fixtureA, fixtureB );
+	}
+};
+TestScene.prototype.EndContact = function(fixture,particleSystem, index )
+{
+	console.log( fixture,particleSystem, index, "END" );
+}
 
 TestScene.prototype.Keyboard = function( char ) {
 	if ( char == "R" ) {

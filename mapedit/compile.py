@@ -94,7 +94,7 @@ if os.path.isdir( string_path ) :
                         grid[ current_tile[ 0 ] ][ current_tile[ 1 ] ][ data_name ] = True
                     x += 1
                 y += 1
-print len( grid ), len( grid[0] )
+                
 data = {
 	"metadata": {
 		"files" : array_files,

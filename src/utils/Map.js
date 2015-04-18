@@ -63,9 +63,6 @@ Map.prototype.createBlock = function( x, y, type ){
 	this.bd.position.Set( x, y );
 	var body = world.CreateBody(this.bd);
 	var fixture = body.CreateFixtureFromShape( b1 );
-	fixture.userData = {
-		type: type
-	}
 	switch( type ) {
 		case TILE_GROUND :
 		
@@ -97,9 +94,6 @@ Map.prototype.createBoulder = function( x, y, type ){
 	body = world.CreateBody(bd);
 	
 	var fixture = body.CreateFixtureFromDef(fd);
-	fixture.userData = {
-		type: type
-	};
 }
 Map.prototype.createChain = function( x, y, type ){
 	var prevBody = this.ground;
@@ -119,9 +113,6 @@ Map.prototype.createChain = function( x, y, type ){
 		bd.position.Set( x, yOffset + 0.05 );
 		var body = world.CreateBody( bd );
 		var fixture = body.CreateFixtureFromDef( fixtureDef );
-		fixture.userData = {
-			type: type
-		}
 
 		var anchor = new b2Vec2(x, yOffset );
 		jd.InitializeAndCreate(prevBody, body, anchor);
@@ -169,15 +160,13 @@ Map.prototype.createCharacter = function( x, y, type ){
 				fixtureDef.friction = 0.2;
 				bd = new b2BodyDef();
 				bd.type = b2_dynamicBody;
-				
+				bd.flags = b2_fixtureContactFilterParticle | b2_fixtureContactListenerParticle;
 				var yOffset = y - ( i * 0.08 ) + 0.3;
 				bd.position.Set( x, yOffset + 0.05 );
 				var body = world.CreateBody( bd );
 				var fixture = body.CreateFixtureFromDef( fixtureDef );
 				currentScene.player = fixture;
-				fixture.userData = {
-					type: type
-				}
+				fixture.userData = new Hero();
 				var anchor = new b2Vec2(x, yOffset );
 				jd.InitializeAndCreate(prevBody, body, anchor);
 				prevBody = body;
@@ -194,11 +183,10 @@ Map.prototype.createCharacter = function( x, y, type ){
 			pgd.flags = b2_elasticParticle | b2_tensileParticle;
 			pgd.groupFlags = b2_solidParticleGroup;
 			pgd.shape = circle;
-			console.log( pgd );
 			pgd.color.Set(0, 255, 0, 255);
 			pgd.position.Set( x, y );
 			var particleGroup = particleSystem.CreateParticleGroup(pgd);
-			
+			particleGroup.userData = new Blob();
 			currentScene.updateList.push( createUpdate( function( self ){
 				if ( self.iterations == 0 )
 				{
@@ -206,6 +194,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 					self.delay = 100;
 				}
 				var particleSystem = self.args.particleSystem;	
+				
 				var positions = particleSystem.GetPositionBuffer();
 				
 				if ( directionFromTo( positions[ 0 ], currentScene.player.body.GetPosition().x ) == "right" ) {
@@ -215,7 +204,6 @@ Map.prototype.createCharacter = function( x, y, type ){
 					particleGroup.ApplyForce( new b2Vec2( -110, 170 ), { x: positions[0], y: positions[1] } );
 				}
 			}, 0, 100, { particleGroup: particleGroup, particleSystem: particleSystem, pgd : pgd } ) );
-			
 			break;
 	}
 	
