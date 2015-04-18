@@ -42,10 +42,16 @@ TestScene.prototype.BeginContact = function( contact ) {
 TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
-	if ( fixtureA.userData != undefined && fixtureA.userData != fixtureB.userData )
+	if ( fixtureA.userData == undefined || fixtureB.userData == undefined )
 	{
-		
+		return;
 	}
+	if ( fixtureA.userData.collideWith == undefined || fixtureB.userData.collideWith == undefined )
+	{
+		return;
+	}
+	fixtureA.userData.collideWith( fixtureB.userData );
+	fixtureB.userData.collideWith( fixtureA.userData );
 };
 TestScene.prototype.EndContact = function(fixture,particleSystem, index )
 {
