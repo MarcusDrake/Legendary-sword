@@ -155,12 +155,17 @@ Map.prototype.createCharacter = function( x, y, type ){
 			var blob = new Blob( {x:x,y:y} );
 			blob.drawBody( this.bd, this.ground );
 			break;
+			
+		case  CHARACTER_BLACKSMITH :
+			blacksmith = new Blacksmith();
+			blacksmith.drawBody( x, y+1 );
+			break;
 	}
 	
 }
 Map.prototype.updateAxis = function(){
 	if ( this.currentAxis == null )
 	{
-		this.currentAxis = hero.collisionList[ 0 ].GetPosition().x
+		//this.currentAxis = hero.collisionList[ 0 ].GetPosition().x
 	}
 }
