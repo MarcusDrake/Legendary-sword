@@ -2,7 +2,7 @@
 
 function Map( grid ) {
 	this.grid = grid;
-
+	this.currentAxis = null;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -157,4 +157,10 @@ Map.prototype.createCharacter = function( x, y, type ){
 			break;
 	}
 	
+}
+Map.prototype.updateAxis = function(){
+	if ( this.currentAxis == null )
+	{
+		this.currentAxis = hero.collisionList[ 0 ].GetPosition().x
+	}
 }

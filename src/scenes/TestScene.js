@@ -7,15 +7,7 @@ function TestScene() {
 	camera.position.z = 12;
 	
 	world.SetContactListener( this );
-	/*
-	this.updateList.push( createUpdate( function( self ){
-		world.Step(timeStep, velocityIterations, positionIterations);
-		if ( self.iterations == 0 )
-		{
-			self.iterations = 1;
-			//changeScene( TestScene );
-		}
-	}, 100 ) );*/
+	
 }
 
 TestScene.prototype.updateList = [];
@@ -25,10 +17,16 @@ TestScene.prototype.sword = {};
 TestScene.prototype.init = function() {
 	this.map = new Map( this.data.grid );
 	this.map.readGrid();
+	this.updateList.push( createUpdate( function( self ){
+		self.args.map.updateAxis();
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+		}
+	}, 1, 0, { map: this.map } ) );
 }
 
 TestScene.prototype.BeginContact = function( contact ) {
-	console.log( contact );
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 	if ( fixtureA.userData != undefined && fixtureA.userData != fixtureB.userData )
