@@ -94,7 +94,9 @@ if os.path.isdir( string_path ) :
                 y += 1
 data = {
 	"metadata": {
-		"files" : array_files
+		"files" : array_files,
+		"tile_size" : tile_size,
+		"map_name" : map_name
 	},
 	"grid": grid
 }
@@ -104,7 +106,7 @@ else :
 	string_grid_json = json.dumps( data )
 
 with open( output_dir + 'compiled_' + map_name + ".js", "wb" ) as compiled_file:
-	compiled_file.write( string_grid_json )
+	compiled_file.write( "res." + map_name + "=" + string_grid_json )
 
 if output_dir != "" :
 	for file in array_files :
