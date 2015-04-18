@@ -142,24 +142,14 @@ Map.prototype.createCharacter = function( x, y, type ){
 	switch ( type )
 	{
 		case CHARACTER_PLAYER :
-			for (var i = 0; i < 1; i++) {
-				var jd = new b2RevoluteJointDef();
-				jd.collideConnected = false;
-				var box = new b2PolygonShape();
-				box.SetAsBoxXY(0.04, 0.08);
-				var fixtureDef = new b2FixtureDef();
-				fixtureDef.shape = box;
-				fixtureDef.density = 5;
-				fixtureDef.friction = 0.2;
-				bd = new b2BodyDef();
-				bd.type = b2_dynamicBody;
-				var yOffset = y - ( i * 0.08 ) + 0.3;
-				bd.position.Set( x, yOffset + 0.05 );
-				var body = world.CreateBody( bd );
-				var fixture = body.CreateFixtureFromDef( fixtureDef );
-			}
-			currentScene.player = fixture;
-			fixture.userData = new Hero( fixture );
+			
+			hero = new Hero();
+			sword = new Sword();
+			
+			hero.drawBody(x,y+10);
+			sword.drawBody(x,y+10);
+		
+			
 			break;
 		case CHARACTER_BLOB :
 			var blob = new Blob( {x:x,y:y} );

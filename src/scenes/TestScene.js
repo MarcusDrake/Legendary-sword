@@ -7,7 +7,7 @@ function TestScene() {
 	camera.position.z = 12;
 	
 	world.SetContactListener( this );
-	
+	/*
 	this.updateList.push( createUpdate( function( self ){
 		world.Step(timeStep, velocityIterations, positionIterations);
 		if ( self.iterations == 0 )
@@ -15,7 +15,7 @@ function TestScene() {
 			self.iterations = 1;
 			//changeScene( TestScene );
 		}
-	}, 100 ) );
+	}, 100 ) );*/
 }
 
 TestScene.prototype.updateList = [];
@@ -42,6 +42,7 @@ TestScene.prototype.BeginContact = function( contact ) {
 TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
+	
 	if ( fixtureA.userData == undefined || fixtureB.userData == undefined )
 	{
 		return;
@@ -50,13 +51,9 @@ TestScene.prototype.BeginContactBody = function( contact ) {
 	{
 		return;
 	}
-	fixtureA.userData.collideWith( fixtureB.userData );
-	fixtureB.userData.collideWith( fixtureA.userData );
+	fixtureA.userData.collideWith( fixtureB );
+	fixtureB.userData.collideWith( fixtureA );
 };
-TestScene.prototype.EndContact = function(fixture,particleSystem, index )
-{
-	console.log( fixture,particleSystem, index, "END" );
-}
 
 TestScene.prototype.Keyboard = function( char ) {
 	if ( char == "R" ) {
@@ -98,4 +95,5 @@ TestScene.prototype.Step = function() {
 			this.updateList[ i ].iterations--;
 		}
 	}
+	
 }
