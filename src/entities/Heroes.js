@@ -1,7 +1,7 @@
 function Sword(){
 	this.bodySword;
 	this.bodyLower;
-	this.size = 0.3;
+	this.size = 0.5;
 
 }
 
@@ -68,7 +68,7 @@ function Hero(){
 	 this.bodyRightLeg;
 	 this.bodyLeftArm;
 	 this.bodyRightArm;
-	 this.size = 0.3;
+	 this.size = 0.5;
 }
 
 Hero.prototype.takeDamage = function( damage ){
