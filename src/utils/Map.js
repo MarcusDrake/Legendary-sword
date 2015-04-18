@@ -108,8 +108,15 @@ Map.prototype.readGrid = function(){
 						this.destroyLiquid( x, y );
 					}
 				break;
-				//case tile.lava :
-				//	this.createLiquid( x, y, LIQUID_LAVA );
+				case tile.lava :
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createLiquid( x, y, LIQUID_LAVA );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyLiquid( x, y );
+					}
 				break;
 				case tile.chain :
 					if ( this.shouldDraw( x, y ) )
@@ -189,18 +196,16 @@ Map.prototype.createLiquid = function( x, y, type ){
 	this.particleSystem.SetRadius( 0.13 );
 	var particleGroupDef = new b2ParticleGroupDef();
 	particleGroupDef.shape = box;
-	//particleGroupDef.color.Set(0, 0, 255, 255);
-	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
-
 	
 	switch( type ) {
 		case LIQUID_WATER :
-		// TODO
+			particleGroupDef.color.Set(0, 64, 255, 128);
 		break;
 		case LIQUID_LAVA :
-		// TODO
+			particleGroupDef.color.Set(255, 16, 0, 128);
 		break;
 	}
+	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
 	return this.particleSystem;
 }
 Map.prototype.createBoulder = function( x, y, type ){
