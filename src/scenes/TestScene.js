@@ -16,7 +16,7 @@ TestScene.prototype.sword = {};
 
 TestScene.prototype.init = function() {
 	this.map = new Map( this.data.grid );
-	this.map.readGrid();
+	//this.map.readGrid();
 	this.updateList.push( createUpdate( function( self ){
 		self.args.map.updateAxis();
 		if ( self.iterations == 0 )
