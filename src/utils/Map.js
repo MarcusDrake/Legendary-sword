@@ -3,6 +3,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
+	this.axisOffset = 80;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -14,6 +15,50 @@ function Map( grid ) {
 	this.psd.dampingStrength = 0.2;
 	this.particleSystem = world.CreateParticleSystem(this.psd);
 }
+Map.prototype.withinAxisRange = function( x ){
+	var maxX = this.currentAxis + this.axisOffset;
+	var minX = this.currentAxis - this.axisOffset;
+	if ( x > minX && x < maxX )
+	{
+		return true;
+	}
+	return false;
+}
+Map.prototype.shouldDraw = function( x, y ){
+	if ( !this.withinAxisRange( x ) )
+	{
+		return false;
+	}
+	if ( this.grid[ x ][ y ].content != undefined )
+	{
+		return false;
+	}
+	return true;
+}
+Map.prototype.destroyBlock = function( x, y ){
+	if ( this.grid[ x ][ y ].content == undefined )
+	{
+		return;
+	}
+	destroyBody( this.grid[ x ][ y ].content );
+	this.grid[ x ][ y ].content = undefined;
+}
+Map.prototype.destroyLiquid = function( x, y ){
+	if ( this.grid[ x ][ y ].content == undefined )
+	{
+		return;
+	}
+	var shape = new b2CircleShape;
+    shape.position = {x:x,y:y};
+    shape.radius = 0.2;
+    var xf = new b2Transform;
+    xf.SetIdentity();
+	this.grid[ x ][ y ].content.DestroyParticlesInShape(shape, xf);
+}
+Map.prototype.destroyRamp = function( x, y ){
+	//destroyBody( this.grid[ x ][ y ].content );
+	this.grid[ x ][ y ].content = undefined;
+}
 Map.prototype.readGrid = function(){
 	
 	for ( var x = 0; x < this.grid.length; x++ )
@@ -23,40 +68,102 @@ Map.prototype.readGrid = function(){
 			var tile = this.grid[ x ][ y ];
 			switch( true ){
 				case tile.ground :
-					this.createBlock( x, y, TILE_GROUND );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createBlock( x, y, TILE_GROUND );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyBlock( x, y );
+					}
 				break;
 				case tile.collision :
-					this.createBlock( x, y, TILE_COLLISION );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.grid[ x ][ y ].content = this.createBlock( x, y, TILE_COLLISION );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyBlock( x, y );
+					}
 				break;
 				case tile.breakable :
-					this.createBlock( x, y, TILE_BREAKABLE );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createBlock( x, y, TILE_BREAKABLE );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyBlock( x, y );
+					}
 				break;
 				case tile.water :
-					this.createLiquid( x, y, LIQUID_WATER );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createLiquid( x, y, LIQUID_WATER );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyLiquid( x, y );
+					}
+				break;
+				//case tile.lava :
+				//	this.createLiquid( x, y, LIQUID_LAVA );
 				break;
 				case tile.chain :
-					this.createChain( x, y, OBJECT_CHAIN );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createChain( x, y, OBJECT_CHAIN );
+					}
 				break;
 				case tile.boulder :
-					this.createBoulder( x, y, OBJECT_BOULDER );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createBoulder( x, y, OBJECT_BOULDER );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyBlock( x, y );
+					}
 				break;
 				case tile.rampright :
-					this.createRamp( x, y, RAMP_STEEP_RIGHT );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createRamp( x, y, RAMP_STEEP_RIGHT );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyRamp( x, y );
+					}
 				break;
 				case tile.rampleft :
-					this.createRamp( x, y, RAMP_STEEP_LEFT );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createRamp( x, y, RAMP_STEEP_LEFT );
+					}
+					else if ( !this.withinAxisRange( x ) )
+					{
+						this.destroyRamp( x, y );
+					}
 				break;
 				case tile.player :
-					this.createCharacter( x, y, CHARACTER_PLAYER );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_PLAYER );
+					}
 				break;
 				case tile.blob :
-					this.createCharacter( x, y, CHARACTER_BLOB );
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_BLOB );
+					}
 				break;
 			}
 		}
 	}
 }
 Map.prototype.createBlock = function( x, y, type ){
+	// type = TILE_COLLISION, TILE_GROUND or TILE_BREAKABLE
 	var b1 = new b2PolygonShape();
 	b1.SetAsBoxXY(0.5, 0.5);
 	this.bd.type = b2_kinematicBody;
@@ -71,15 +178,29 @@ Map.prototype.createBlock = function( x, y, type ){
 		
 		break;
 	}
+	return body;
 }
 
 Map.prototype.createLiquid = function( x, y, type ){
+	// type = LIQUID_WATER or LIQUID_LAVA
 	var box = new b2PolygonShape();
 	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2(x + 0, y + 0), 0);
 
 	var particleGroupDef = new b2ParticleGroupDef();
 	particleGroupDef.shape = box;
+	//particleGroupDef.color.Set(0, 0, 255, 255);
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
+
+	
+	switch( type ) {
+		case LIQUID_WATER :
+		// TODO
+		break;
+		case LIQUID_LAVA :
+		// TODO
+		break;
+	}
+	return this.particleSystem;
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
@@ -94,6 +215,7 @@ Map.prototype.createBoulder = function( x, y, type ){
 	body = world.CreateBody(bd);
 	
 	var fixture = body.CreateFixtureFromDef(fd);
+	return body;
 }
 Map.prototype.createChain = function( x, y, type ){
 	var prevBody = this.ground;
@@ -118,6 +240,7 @@ Map.prototype.createChain = function( x, y, type ){
 		jd.InitializeAndCreate(prevBody, body, anchor);
 		prevBody = body;
 	}
+	return this.ground;
 }
 Map.prototype.createRamp = function( x, y, type ){
 	switch ( type )
@@ -137,8 +260,10 @@ Map.prototype.createRamp = function( x, y, type ){
 			var fixture = this.ground.CreateFixtureFromShape(shape, 0);
 			break;
 	}
+	return fixture;
 }
 Map.prototype.createCharacter = function( x, y, type ){
+	var character = undefined;
 	switch ( type )
 	{
 		case CHARACTER_PLAYER :
@@ -148,12 +273,13 @@ Map.prototype.createCharacter = function( x, y, type ){
 			
 			hero.drawBody(x,y+10);
 			sword.drawBody(x,y+10);
-		
+			character = hero;
 			
 			break;
 		case CHARACTER_BLOB :
 			var blob = new Blob( {x:x,y:y} );
 			blob.drawBody( this.bd, this.ground );
+			var character = blob;
 			break;
 			
 		case  CHARACTER_BLACKSMITH :
@@ -161,11 +287,22 @@ Map.prototype.createCharacter = function( x, y, type ){
 			blacksmith.drawBody( x, y+1 );
 			break;
 	}
+	return character;
 	
 }
 Map.prototype.updateAxis = function(){
 	if ( this.currentAxis == null )
 	{
-		//this.currentAxis = hero.collisionList[ 0 ].GetPosition().x
+
+		this.currentAxis = 0;
+		this.readGrid();
+		return;
+
 	}
+	if ( hero.collisionList[ 0 ].GetPosition().x != this.currentAxis )
+	{
+		this.currentAxis = hero.collisionList[ 0 ].GetPosition().x;
+		this.readGrid();
+	}
+	
 }
