@@ -34,6 +34,9 @@ Map.prototype.readGrid = function(){
 				case tile.water :
 					this.createLiquid( x, y, LIQUID_WATER );
 				break;
+				//case tile.lava :
+				//	this.createLiquid( x, y, LIQUID_LAVA );
+				break;
 				case tile.chain :
 					this.createChain( x, y, OBJECT_CHAIN );
 				break;
@@ -57,6 +60,7 @@ Map.prototype.readGrid = function(){
 	}
 }
 Map.prototype.createBlock = function( x, y, type ){
+	// type = TILE_COLLISION, TILE_GROUND or TILE_BREAKABLE
 	var b1 = new b2PolygonShape();
 	b1.SetAsBoxXY(0.5, 0.5);
 	this.bd.type = b2_kinematicBody;
@@ -74,12 +78,23 @@ Map.prototype.createBlock = function( x, y, type ){
 }
 
 Map.prototype.createLiquid = function( x, y, type ){
+	// type = LIQUID_WATER or LIQUID_LAVA
 	var box = new b2PolygonShape();
 	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2(x + 0, y + 0), 0);
 
 	var particleGroupDef = new b2ParticleGroupDef();
 	particleGroupDef.shape = box;
+	//particleGroupDef.color.Set(0, 0, 255, 255);
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
+	
+	switch( type ) {
+		case LIQUID_WATER :
+		// TODO
+		break;
+		case LIQUID_LAVA :
+		// TODO
+		break;
+	}
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
