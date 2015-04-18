@@ -148,32 +148,18 @@ Map.prototype.createCharacter = function( x, y, type ){
 	switch ( type )
 	{
 		case CHARACTER_PLAYER :
-			var prevBody = this.ground;
-			for (var i = 0; i < 10; i++) {
-				var jd = new b2RevoluteJointDef();
-				jd.collideConnected = false;
-				var box = new b2PolygonShape();
-				box.SetAsBoxXY(0.04, 0.08);
-				var fixtureDef = new b2FixtureDef();
-				fixtureDef.shape = box;
-				fixtureDef.density = 5;
-				fixtureDef.friction = 0.2;
-				bd = new b2BodyDef();
-				bd.type = b2_dynamicBody;
-				bd.flags = b2_fixtureContactFilterParticle | b2_fixtureContactListenerParticle;
-				var yOffset = y - ( i * 0.08 ) + 0.3;
-				bd.position.Set( x, yOffset + 0.05 );
-				var body = world.CreateBody( bd );
-				var fixture = body.CreateFixtureFromDef( fixtureDef );
-				currentScene.player = fixture;
-				fixture.userData = new Hero();
-				var anchor = new b2Vec2(x, yOffset );
-				jd.InitializeAndCreate(prevBody, body, anchor);
-				prevBody = body;
-			}
+			
+			hero = new Hero();
+			sword = new Sword();
+			
+			
+			hero.drawBody(x,y+10);
+			sword.drawBody(x,y+10);
+		
+			
 			break;
 		case CHARACTER_BLOB :
-			circle = new b2CircleShape();
+		/*	circle = new b2CircleShape();
 			circle.position.Set( 0, 0 );
 			circle.radius = 0.25;
 			
@@ -203,7 +189,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 				else{
 					particleGroup.ApplyForce( new b2Vec2( -110, 170 ), { x: positions[0], y: positions[1] } );
 				}
-			}, 0, 100, { particleGroup: particleGroup, particleSystem: particleSystem, pgd : pgd } ) );
+			}, 0, 100, { particleGroup: particleGroup, particleSystem: particleSystem, pgd : pgd } ) );*/
 			break;
 	}
 	
