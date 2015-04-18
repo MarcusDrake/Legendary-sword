@@ -135,13 +135,7 @@ Map.prototype.createRamp = function( x, y, type ){
 			shape.vertices[1] = new b2Vec2(-0.5 + x, -0.5 + y),
 			shape.vertices[2] = new b2Vec2(-0.5 + x, 0.5 + y);
 			var fixture = this.ground.CreateFixtureFromShape(shape, 0);
-			fixture.userData = {
-				type: type
-			}
 			break;
-	}
-	fixture.userData = {
-		type: type
 	}
 }
 Map.prototype.createCharacter = function( x, y, type ){
@@ -152,44 +146,14 @@ Map.prototype.createCharacter = function( x, y, type ){
 			hero = new Hero();
 			sword = new Sword();
 			
-			
 			hero.drawBody(x,y+10);
 			sword.drawBody(x,y+10);
 		
 			
 			break;
 		case CHARACTER_BLOB :
-		/*	circle = new b2CircleShape();
-			circle.position.Set( 0, 0 );
-			circle.radius = 0.25;
-			
-			
-			var particleSystem = world.CreateParticleSystem(this.psd);
-			pgd = new b2ParticleGroupDef();
-			pgd.flags = b2_elasticParticle | b2_tensileParticle;
-			pgd.groupFlags = b2_solidParticleGroup;
-			pgd.shape = circle;
-			pgd.color.Set(0, 255, 0, 255);
-			pgd.position.Set( x, y );
-			var particleGroup = particleSystem.CreateParticleGroup(pgd);
-			particleGroup.userData = new Blob();
-			currentScene.updateList.push( createUpdate( function( self ){
-				if ( self.iterations == 0 )
-				{
-					self.iterations = 1;
-					self.delay = 100;
-				}
-				var particleSystem = self.args.particleSystem;	
-				
-				var positions = particleSystem.GetPositionBuffer();
-				
-				if ( directionFromTo( positions[ 0 ], currentScene.player.body.GetPosition().x ) == "right" ) {
-					particleGroup.ApplyForce( new b2Vec2( 110, 170 ), { x: positions[0], y: positions[1] } );
-				}
-				else{
-					particleGroup.ApplyForce( new b2Vec2( -110, 170 ), { x: positions[0], y: positions[1] } );
-				}
-			}, 0, 100, { particleGroup: particleGroup, particleSystem: particleSystem, pgd : pgd } ) );*/
+			var blob = new Blob( {x:x,y:y} );
+			blob.drawBody( this.bd, this.ground );
 			break;
 	}
 	
