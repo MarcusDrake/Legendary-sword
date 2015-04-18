@@ -40,12 +40,11 @@ TestScene.prototype.BeginContact = function( contact ) {
 };
 
 TestScene.prototype.BeginContactBody = function( contact ) {
-	console.log( contact.GetManifold() );
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 	if ( fixtureA.userData != undefined && fixtureA.userData != fixtureB.userData )
 	{
-		console.log( fixtureA, fixtureB );
+		
 	}
 };
 TestScene.prototype.EndContact = function(fixture,particleSystem, index )
