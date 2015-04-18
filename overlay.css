@@ -1,0 +1,28 @@
+.textbox
+{
+	position: absolute;
+	width: 100px;
+	height: 50px;
+
+
+
+	padding: 20px;
+
+
+
+	text-align: left;
+
+	line-height: 1.65em;
+
+		
+	border-radius: 74px 74px 74px 74px;
+	-moz-border-radius: 74px 74px 74px 74px;
+	-webkit-border-radius: 74px 74px 74px 74px;
+	border: 2px solid #000000;
+}
+
+.texthero
+{
+	left: 47%;
+	top:20%
+}

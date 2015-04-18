@@ -38,7 +38,7 @@ Map.prototype.shouldDraw = function( x, y ){
 Map.prototype.destroyBlock = function( x, y ){
 	if ( this.grid[ x ][ y ].content == undefined )
 	{
-		return;
+		return;this.currentAxis
 	}
 	destroyBody( this.grid[ x ][ y ].content );
 	this.grid[ x ][ y ].content = undefined;
@@ -298,6 +298,10 @@ Map.prototype.createCharacter = function( x, y, type ){
 			var blob = new Blob( {x:x,y:y} );
 			blob.drawBody( this.bd, this.ground );
 			var character = blob;
+			
+		case  CHARACTER_BLACKSMITH :
+			blacksmith = new Blacksmith();
+			blacksmith.drawBody( x, y+1 );
 			break;
 	}
 	return character;
@@ -306,9 +310,11 @@ Map.prototype.createCharacter = function( x, y, type ){
 Map.prototype.updateAxis = function(){
 	if ( this.currentAxis == null )
 	{
+
 		this.currentAxis = 0;
 		this.readGrid();
 		return;
+
 	}
 	if ( hero.collisionList[ 0 ].GetPosition().x != this.currentAxis )
 	{
