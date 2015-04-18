@@ -166,6 +166,12 @@ Map.prototype.readGrid = function(){
 						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_BLOB );
 					}
 				break;
+				case tile.blobpet :
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_BLOBPET );
+					}
+				break;
 			}
 		}
 	}
@@ -283,14 +289,17 @@ Map.prototype.createCharacter = function( x, y, type ){
 			
 			break;
 		case CHARACTER_BLOB :
-			var blob = new Blob( {x:x,y:y} );
-			blob.drawBody( this.bd, this.ground );
-			var character = blob;
+			var character = new Blob( {x:x,y:y} );
+			character.drawBody( this.bd, this.ground );
 			break;
 			
 		case  CHARACTER_BLACKSMITH :
-			blacksmith = new Blacksmith();
-			blacksmith.drawBody( x, y+1 );
+			character = new Blacksmith();
+			character.drawBody( x, y+1 );
+			break;
+		case  CHARACTER_BLOBPET :
+			character = new BlobPet();
+			character.drawBody( x, y+1 );
 			break;
 	}
 	return character;

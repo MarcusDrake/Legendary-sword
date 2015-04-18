@@ -762,7 +762,9 @@ res.map1={
             {
                 "blobpet": true
             },
-            {},
+            {
+                "blobpet": true
+            },
             {},
             {},
             {},
@@ -3800,7 +3802,9 @@ res.map1={
                 "collision": true,
                 "ground": true
             },
-            {},
+            {
+                "petblob": true
+            },
             {},
             {},
             {},
@@ -3861,7 +3865,9 @@ res.map1={
                 "ground": true
             },
             {},
-            {},
+            {
+                "petblob": true
+            },
             {},
             {},
             {
@@ -14212,6 +14218,7 @@ res.map1={
             "map1_collision.png",
             "map1_chain.png",
             "map1_player.png",
+            "map1_petblob.png",
             "map1_boulder.png",
             "map1_blobpet.png",
             "map1_rampright.png",
