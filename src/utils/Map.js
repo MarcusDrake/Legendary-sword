@@ -317,7 +317,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 					hero.proclaimCause();
 					$('#swordTakeButton').show();
 				}, 0, 100 ) );
-			}, 0, 50, {x:x,y:y} ) );
+			}, 0, 1, {x:x,y:y} ) );
 			
 			sword.drawBody(x,y+3.7);
 			sword.drawGuard(x,y+10,29);
