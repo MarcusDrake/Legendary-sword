@@ -135,8 +135,8 @@ Sword.prototype.connectToHero = function()
 
 function Hero(){
 
-	 this.health = 20;
-	 this.maxHealth = 20;
+	 this.health = 200;
+	 this.maxHealth = 200;
 
 	 this.damage = 0;
 	

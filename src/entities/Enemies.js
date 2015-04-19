@@ -12,7 +12,7 @@ function Blob( position ){
 
 function WormBoss( position ){
 	this.position = position;
-	this.health = 25;
+	this.health = 1;
 	this.damage = 2;
 	this.damageCooldown = 0;
 	this.collisionList = [];
@@ -49,6 +49,10 @@ WormBoss.prototype.takeDamage = function( damage ){
 	{
 		sfx('death');
 		destroyBodies( this.collisionList );
+		var pos = this.collisionList[0].GetPosition();
+		setTimeout( function(){
+			new Waifu( pos.x, pos.y);
+		},5 );
 		removeDialog("WormBoss"+this.id);
 		this.alive = false;
 	}

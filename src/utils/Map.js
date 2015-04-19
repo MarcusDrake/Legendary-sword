@@ -37,7 +37,11 @@ Map.prototype.shouldDraw = function( x, y ){
 Map.prototype.destroyBlock = function( x, y ){
 	if ( this.grid[ x ][ y ].content == undefined )
 	{
-		return;this.currentAxis
+		return;
+	}
+	if ( this.grid[ x ][ y ].content.userData != "block" )
+	{
+		return;
 	}
 	destroyBody( this.grid[ x ][ y ].content );
 	this.grid[ x ][ y ].content = undefined;
@@ -215,7 +219,7 @@ Map.prototype.createBlock = function( x, y, type ){
 	var body = world.CreateBody(this.bd);
 	var fixture = body.CreateFixtureFromShape( b1 );
 	fixture.userData = "block";
-	return body;
+	return fixture;
 }
 
 Map.prototype.createLiquid = function( x, y, type ){
