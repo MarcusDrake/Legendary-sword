@@ -57,12 +57,11 @@ Blacksmith.prototype.dealDamage = function( creature ){
 
 }
 Blacksmith.prototype.collideWith = function( fixture ){
-	console.log("blacksmith collide");
+	//console.log("blacksmith collide");
 }
 
 Blacksmith.prototype.dialog = function()
 {
-
 
 }
 Blacksmith.prototype.drawBody = function( x, y ){
@@ -522,6 +521,241 @@ commonNpc.prototype.drawBody = function( x, y ){
 }
 
 commonNpc.prototype.addToUpdate = function(){
+	
+	currentScene.updateList.push( createUpdate( function( self ){
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+		}
+		updatePositionDialog(self.args.blacksmith.collisionList[0].GetPosition().x,self.args.blacksmith.collisionList[0].GetPosition().y,"blacksmith"+self.args.blacksmith.id);
+	}, 0, 1, { blacksmith: this } ) );
+}
+
+function Waifu( position ){
+	this.position = position;
+	this.health = 10;
+	this.damage = 1;
+	this.damageCooldown = 0;
+	this.collisionList = [];
+	this.size = 0.27;
+	this.id = "Waifu"+Math.floor((Math.random() * 100) + 1);
+}
+
+Waifu.prototype.takeDamage = function(){
+
+}
+Waifu.prototype.dealDamage = function( creature ){
+	if ( this.damageCooldown > 0 )
+	{
+		return;
+	}
+	this.damageCooldown = 20;
+	creature.takeDamage( this.damage );
+}
+Waifu.prototype.collideWith = function( fixture ){
+
+}
+
+Waifu.prototype.dialog = function()
+{
+
+
+}
+Waifu.prototype.drawBody = function( x, y ){
+	var bodyDef = new b2BodyDef();
+	x -= 0.8;
+	//torso
+	var jd = new b2RevoluteJointDef();
+	jd.collideConnected = false;
+	
+	console.log( box );
+	var box = new b2PolygonShape();
+	var xMod = 12.1;
+	var yMod = 3.5;
+	x -= xMod;
+	y -= yMod;
+	box.vertices[0] = new b2Vec2(x + 0.6, y -1 );
+	box.vertices[1] = new b2Vec2(x - 0.6, y -1 ),
+	box.vertices[2] = new b2Vec2(x, y + 1 );
+	
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = box;
+	fixtureDef.density = 20;
+	fixtureDef.friction = 0.2;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(x + 1*this.size, y);
+	this.bodyTorso = world.CreateBody(bodyDef);
+	var fixture = this.bodyTorso.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
+
+	//Boobs
+	
+	var circle = new b2CircleShape();
+	circle.radius = 0.5
+	circle.position = new b2Vec2( x-0.4, y + 0.2 );
+	fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = CATEGORY_DEFAULT;
+	fixtureDef.filter.maskBits = MASK_DEFAULT;
+	fixtureDef.density = 0.0001;
+	fixtureDef.shape = circle;
+	var boobFixture = this.bodyTorso.CreateFixtureFromDef(fixtureDef);
+	
+	circle = new b2CircleShape();
+	circle.radius = 0.5
+	circle.position = new b2Vec2( x+0.4, y + 0.2  );
+	fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = CATEGORY_DEFAULT;
+	fixtureDef.filter.maskBits = MASK_DEFAULT;
+	fixtureDef.density = 0.0001;
+	fixtureDef.shape = circle;
+	
+	boobFixture = this.bodyTorso.CreateFixtureFromDef(fixtureDef);
+
+	x += xMod;
+	y += yMod;
+	//Left leg
+	jd = new b2RevoluteJointDef();
+	jd.collideConnected = false;
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(0.7*this.size, 2*this.size);
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = box;
+	fixtureDef.density = 40;
+	fixtureDef.friction = 0.2;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(x+2.2*this.size, y-5*this.size);
+	this.bodyLeftLeg = world.CreateBody(bodyDef);
+	var fixture = this.bodyLeftLeg.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
+
+	jd.enableLimit = true;
+	jd.lowerAngle = -45 * Math.PI / 180;
+	jd.upperAngle =  45 * Math.PI / 180;
+  
+	var anchor = new b2Vec2(x+2.5*this.size, y-3*this.size);
+	jd.InitializeAndCreate(this.bodyTorso, this.bodyLeftLeg, anchor);
+	
+	//Right leg
+	jd = new b2RevoluteJointDef();
+	jd.collideConnected = false;
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(0.7*this.size, 2*this.size);
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = box;
+	fixtureDef.density = 40;
+	fixtureDef.friction = 0.2;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(x-0.2*this.size, y-5*this.size);
+	this.bodyRightLeg = world.CreateBody(bodyDef);
+	var fixture = this.bodyRightLeg.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
+
+	jd.enableLimit = true;
+	jd.lowerAngle = -45 * Math.PI / 180;
+	jd.upperAngle =  45 * Math.PI / 180;
+	
+	var anchor = new b2Vec2(x-0.5*this.size, y-3*this.size);
+	jd.InitializeAndCreate(this.bodyTorso, this.bodyRightLeg, anchor);
+	
+	//left arm
+	xMod = 1.5;
+	jd = new b2RevoluteJointDef();
+	jd.collideConnected = false;
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(0.7*this.size, 2*this.size);
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = box;
+	fixtureDef.density = 20;
+	fixtureDef.friction = 0.2;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(x-xMod*this.size, y);
+	this.bodyLeftArm = world.CreateBody(bodyDef);
+	var fixture = this.bodyLeftArm.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
+
+	jd.enableLimit = true;
+	jd.lowerAngle = -180 * Math.PI / 180;
+	jd.upperAngle =  180 * Math.PI / 180;
+	
+
+	jd.maxMotorTorque = 175.0;
+	jd.motorSpeed = -1.0;
+
+	//jd.enableMotor = true;
+
+	var anchor = new b2Vec2(x-xMod*this.size, y+2*this.size);
+	jd.InitializeAndCreate(this.bodyTorso, this.bodyLeftArm, anchor);
+	
+	//Right arm
+	xMod = 3.5;
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(0.7*this.size, 2*this.size);
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = box;
+	fixtureDef.density = 20;
+	fixtureDef.friction = 0.2;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(x+xMod*this.size, y);
+	this.bodyRightArm = world.CreateBody(bodyDef);
+	var fixture = this.bodyRightArm.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
+
+	jd.enableLimit = true;
+	jd.lowerAngle = 0 * Math.PI / 180;
+	jd.upperAngle = 180 * Math.PI / 180;
+	
+	var anchor = new b2Vec2(x+xMod*this.size, y+2*this.size);
+	jd.InitializeAndCreate(this.bodyTorso, this.bodyRightArm, anchor);
+  
+	//head
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(1.5*this.size, 1.5*this.size);
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = box;
+	fixtureDef.density = 20;
+	fixtureDef.friction = 0.2;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(x+1*this.size, y+4.5*this.size);
+	this.bodyHead = world.CreateBody(bodyDef);
+	var fixture = this.bodyHead.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = this;
+
+	jd.enableLimit = true;
+	jd.lowerAngle = -5 * Math.PI / 180;
+	jd.upperAngle = 5 * Math.PI / 180;
+	
+	var anchor = new b2Vec2(x+1*this.size, y+5*this.size);
+	jd.InitializeAndCreate(this.bodyTorso, this.bodyHead, anchor);
+	
+	var jd = new b2RevoluteJointDef();
+	jd.collideConnected = false;
+	
+	this.collisionList = [
+		//TOP INDEX = ORIGIN
+		this.bodyTorso,
+		this.bodyHead,
+		this.bodyLeftLeg,
+		this.bodyRightLeg,
+		this.bodyLeftArm,
+		this.bodyRightArm,
+	];
+	
+	this.addToUpdate();
+}
+
+Waifu.prototype.addToUpdate = function(){
 	
 	currentScene.updateList.push( createUpdate( function( self ){
 		if ( self.iterations == 0 )
