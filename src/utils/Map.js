@@ -171,6 +171,12 @@ Map.prototype.readGrid = function(){
 						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_BLOBPET );
 					}
 				break;
+				case tile.blacksmith :
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_BLACKSMITH );
+					}
+				break;
 			}
 		}
 	}
