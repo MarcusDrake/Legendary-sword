@@ -135,8 +135,8 @@ Sword.prototype.connectToHero = function()
 
 function Hero(){
 
-	 this.health = 12;
-	 this.maxHealth = 12;
+	 this.health = 2;
+	 this.maxHealth = 2;
 
 	 this.damage = 0;
 	
@@ -389,6 +389,8 @@ Hero.prototype.takeDamage = function( damage ){
 
 		destroyJoint( mouseJoint );
 		this.alive = false;
+		setTimeout(function() {$('#letterbox-full').fadeIn();}, 4000);
+		
 		
 		sfx('dead_hero');
 

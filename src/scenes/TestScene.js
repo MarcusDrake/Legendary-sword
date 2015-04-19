@@ -8,7 +8,7 @@ function TestScene() {
 	play('intro');
 	
 	world.SetContactListener( this );
-	
+	$('#letterbox-full').fadeOut();
 }
 
 TestScene.prototype.updateList = [];
