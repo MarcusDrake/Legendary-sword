@@ -16,7 +16,7 @@ Blacksmith.prototype.takeDamage = function(){
 	this.health -= 1;
 	if(this.health == 4)
 	{
-		addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blacksmith"+this.id,"Ahaa what are you doing?!");
+		addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blacksmith"+this.id,"Argh, what are you doing?!");
 		setTimeout(function() {addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","Oh i'm sorry that was a mistake");}, 1000);
 		setTimeout(function() {removeDialog("hero");}, 5000);
 		
@@ -46,7 +46,7 @@ Blacksmith.prototype.takeDamage = function(){
 		destroyBodies( this.collisionList );
 		removeDialog("blacksmith"+this.id);
 		
-		addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","OOH NOW WHAT HAVE I DONE! I KILLED HIM.");
+		addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","WHAT HAVE I DONE!? WHY DID I KILL HIM!?");
 		setTimeout(function() {removeDialog("hero");}, 5000);
 		
 		this.alive = false;
@@ -56,6 +56,7 @@ Blacksmith.prototype.takeDamage = function(){
 Blacksmith.prototype.dealDamage = function( creature ){
 
 }
+
 Blacksmith.prototype.collideWith = function( fixture ){
 	//console.log("blacksmith collide");
 }
@@ -64,6 +65,7 @@ Blacksmith.prototype.dialog = function()
 {
 
 }
+
 Blacksmith.prototype.drawBody = function( x, y ){
 	var bodyDef = new b2BodyDef();
 	

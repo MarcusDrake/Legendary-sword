@@ -26,7 +26,10 @@ TestScene.prototype.init = function() {
 			self.iterations = 1;
 		}
 	}, 1, 0, { map: this.map } ) );
+
 }
+
+
 
 TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();

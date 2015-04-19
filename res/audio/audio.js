@@ -32,6 +32,10 @@ function play(track) {
 function sfx(sfx) {
 	var randFloat = Math.random();
 	switch( sfx ){
+		case 'menu_select' :
+			sfx = new Audio('./res/audio/sfx/menu_select.wav')
+			break;
+		
 		case 'dead_hero' :
 			sfx = new Audio('./res/audio/sfx/dead_hero.wav')
 			break;
@@ -41,13 +45,17 @@ function sfx(sfx) {
 			break;
 			
 		case 'slash' :
-			sfx = new Audio('./res/audio/sfx/slash.wav')
+			if (randFloat < 0.5) {
+				sfx = new Audio('./res/audio/sfx/slash.wav')
+			} else {
+				sfx = new Audio('./res/audio/sfx/slash2.wav')
+			}
 			break;
 		
 		case 'blob' :
 			if (randFloat < 0.5) {
 				sfx = new Audio('./res/audio/sfx/blob.wav')
-			} else if (randFloat < 1) {
+			} else {
 				sfx = new Audio('./res/audio/sfx/blob2.wav')
 			}
 			break;
@@ -55,22 +63,27 @@ function sfx(sfx) {
 		case 'hurt' :
 			if (randFloat < 0.5) {
 				sfx = new Audio('./res/audio/sfx/hurt.wav')
-			} else if (randFloat < 1) {
+			} else {
 				sfx = new Audio('./res/audio/sfx/hurt2.wav')
 			}
 			break;
 			
+		case 'death' :
+			sfx = new Audio('./res/audio/sfx/death.wav')
+			break;
+		
+		//TODO: Update WormBoss sounds
 		case 'wormboss_hit' :
 			if (randFloat < 0.5) {
 				sfx = new Audio('./res/audio/sfx/hurt.wav')
-			} else if (randFloat < 1) {
+			} else {
 				sfx = new Audio('./res/audio/sfx/hurt2.wav')
 			}
 			break;
-			
+		//TODO: Update WormBoss sounds	
 		case 'wormboss_hurt' :
 			if (randFloat < 0.5) {
-				sfx = new Audio('./res/audio/sfx/hurt.wav')
+				sfx = new Audio('./res/audio/sfx/wormboss_hurt.wav')
 			} else if (randFloat < 1) {
 				sfx = new Audio('./res/audio/sfx/hurt2.wav')
 			}

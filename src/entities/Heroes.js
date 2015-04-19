@@ -309,7 +309,8 @@ Hero.prototype.drawBody = function(x,y){
 }
 Hero.prototype.proclaimCause = function()
 {
-	addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"hero","Hey fuck you!");
+	// TODO: Text/story update.
+	addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"hero","I found the <strong>Legendary Sword</strong>, I will take it and save my wife!");
 }
 Hero.prototype.addToUpdate = function(){
 	

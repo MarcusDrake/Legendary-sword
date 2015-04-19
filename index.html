@@ -38,7 +38,7 @@
 	<div style="position:absolute;float:right;z-index:1;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;background:white"></div>
 	
 
-	<div id="overlay" class="non-select" hidden>
+	<div id="overlay" class="non-select">
 
 		<div class="health-bar">
 			<div class="health-hit"></div>
@@ -49,11 +49,20 @@
 			  <div class="depression-hit"></div>
 			</div>
 		</div>
-		
+
+		<div id="letterbox-top" class="letterbox-top"></div>
+		<div id="letterbox-bottom" class="letterbox-bottom"></div>
+
 	</div>
-	<div id="textboxHero" class="textbox texthero">
-		<a href="#" onclick="initGame(); this.parentNode.style.display = 'none'; document.getElementById('overlay').style.display = 'block'; return false;"> <i class="fa fa-play"></i></a>
-	</div>
+	
+	<script>initGame();</script>
+	
+	<div class="centerdiv">
+		<button href="#" id="swordTakeButton" class="swordOption" onclick="sfx('menu_select'); sword.connectToHero();$('#letterbox-top').fadeOut();$('#letterbox-bottom').fadeOut();$('#swordTakeButton').hide();removeDialog('hero');" hidden>Take IT!</button>
+	<div>
+	<!--<div id="textboxHero" class="textbox texthero">
+		<a href="#" onclick="sfx('menu_select'); initGame(); this.parentNode.style.display = 'none'; document.getElementById('overlay').style.display = 'block'; return false;"> <i class="fa fa-play"></i></a>
+	</div>-->
 
 
 </html>
