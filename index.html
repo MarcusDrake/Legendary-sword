@@ -49,15 +49,16 @@
 			  <div class="depression-hit"></div>
 			</div>
 		</div>
-		<div id="letterbox-top" class="letterbox-top" hidden></div>
-		<div id="letterbox-bottom" class="letterbox-bottom" hidden></div>
+		<div id="letterbox-top" class="letterbox-top"></div>
+		<div id="letterbox-bottom" class="letterbox-bottom"></div>
 		
 	</div>
 	
 	<script>initGame();</script>
 	
-	<div>
-		<a href="#" id="swordTakeButton" class="swordOption" onclick="sword.connectToHero();$('#letterbox-top').fadeOut();$('#letterbox-bottom').fadeOut();$('#swordTakeButton').hide();removeDialog('hero');">Take IT!</a>
+	<div class="centerdiv">
+		<button href="#" id="swordTakeButton" class="swordOption" onclick="sword.connectToHero();$('#letterbox-top').fadeOut();$('#letterbox-bottom').fadeOut();$('#swordTakeButton').hide();removeDialog('hero');" hidden>Take IT!</button>
+		
 	<div>
 	<!--<div id="textboxHero" class="textbox texthero">
 		<a href="#" onclick="initGame(); this.parentNode.style.display = 'none'; document.getElementById('overlay').style.display = 'block'; return false;"> <i class="fa fa-play"></i></a>

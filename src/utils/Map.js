@@ -309,6 +309,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 				hero.drawBody(self.args.x,self.args.y+10);
 				currentScene.updateList.push( createUpdate( function( self ){
 					hero.proclaimCause();
+					$('#swordTakeButton').show();
 				}, 0, 100 ) );
 			}, 0, 50, {x:x,y:y} ) );
 			
