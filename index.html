@@ -55,7 +55,7 @@
 	<script>initGame();</script>
 	
 	<div>
-		<a href="#" id="swordTakeButton" class="swordOption" onclick="sword.connectToHero();$('#letterbox-top').fadeOut();$('#letterbox-bottom').fadeOut();$('#swordTakeButton').hide();removeDialog('hero');">Take IT!</a>
+		<a href="#" id="swordTakeButton" class="swordOption" onclick="sfx('menu_select'); sword.connectToHero();$('#letterbox-top').fadeOut();$('#letterbox-bottom').fadeOut();$('#swordTakeButton').hide();removeDialog('hero');">Take IT!</a>
 	<div>
 	<!--<div id="textboxHero" class="textbox texthero">
 		<a href="#" onclick="sfx('menu_select'); initGame(); this.parentNode.style.display = 'none'; document.getElementById('overlay').style.display = 'block'; return false;"> <i class="fa fa-play"></i></a>
