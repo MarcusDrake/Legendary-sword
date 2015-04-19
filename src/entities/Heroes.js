@@ -130,6 +130,7 @@ Sword.prototype.connectToHero = function()
 	var anchor = new b2Vec2(x-2.5*this.size, y-2*this.size);
 	jd.InitializeAndCreate(hero.bodyLeftArm, sword.bodySword, anchor);
 	createMouseJoint();
+	hero.active = true;
 }
 
 function Hero(){
@@ -151,6 +152,7 @@ function Hero(){
 	 this.legContactList = [];
 	 this.depression = 0;
 	 this.maxDepression = 10;
+	 this.active = false;
 }
 Hero.prototype.getOrigin = function()
 {
@@ -364,7 +366,7 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 	this.legContactList.push( target )
 }
 Hero.prototype.jump = function( fixture ){
-	if ( this.legContactList.length == 0 )
+	if ( this.legContactList.length == 0 || !this.active )
 	{
 		return;
 	}

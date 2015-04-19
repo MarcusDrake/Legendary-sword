@@ -232,6 +232,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 		break;
 		case LIQUID_LAVA :
 			particleGroupDef.color.Set(255, 16, 0, 128);
+			particleGroupDef.flags = b2_tensileParticle | b2_viscousParticle;
 		break;
 	}
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
@@ -347,13 +348,12 @@ Map.prototype.createCharacter = function( x, y, type ){
 			character.drawBody( x, y+1 );
 			break;
 	}
-	return sword;
-	
+	return sword;	
 }
 Map.prototype.updateAxis = function(){
 	if ( this.currentAxis == null )
 	{
-		this.currentAxis = 0;
+		this.currentAxis = 10;
 		this.readGrid();
 		return;
 	}
