@@ -15,26 +15,27 @@ Blob.prototype.takeDamage = function( damage ){
 	switch(Math.floor((Math.random() * 4) + 1))
 	{
 		case 1:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Hey fuck you!");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Hey fuck you!");
 			break;
 		case 2:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Ouch!!");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Ouch!!");
 			break;
 		case 3:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Oh no you didn't! You are dead now");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Oh no you didn't! You are dead now");
 			break;
 		case 4:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,":(");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,":(");
 			break;
 	}
 
+	setTimeout(function() {removeDialog(this.id);}, 4000);
 	sfx('hit');
 
 	this.health -= damage;
 	if ( this.health <= 0 )
 	{
 		destroyBodies( this.collisionList );
-		removeDialog("blob"+this.id);
+		removeDialog(this.id);
 		this.alive = false;
 	}
 }
@@ -116,7 +117,7 @@ Blob.prototype.addToUpdate = function(){
 		{
 			self.iterations = 1;
 		}
-		updatePositionDialog(self.args.blob.collisionList[0].GetPosition().x,self.args.blob.collisionList[0].GetPosition().y,"blob"+self.args.blob.id);
+		updatePositionDialog(self.args.blob.collisionList[0].GetPosition().x,self.args.blob.collisionList[0].GetPosition().y,self.args.blob.id);
 		if ( self.args.blob.damageCooldown > 0 )
 		{
 			self.args.blob.damageCooldown--;
