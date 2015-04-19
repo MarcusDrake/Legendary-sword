@@ -220,7 +220,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 			particleGroupDef.color.Set(0, 64, 255, 128);
 		break;
 		case LIQUID_LAVA :
-			particleGroupDef.color.Set(255, 16, 0, 128);
+			particleGroupDef.color.Set(192, 16, 0, 128);
 		break;
 	}
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
