@@ -98,31 +98,20 @@ function updateHealthBar(health, maxHealth)
  //   hBar.data('value', newValue);
 }
 
-function updateDepressionBar()
+function updateDepressionBar(depression, maxDepression)
 {
 	var hBar = $('.depression-bar');
 	var bar = hBar.find('.depression-bar-back');
     var hit = hBar.find('.depression-hit');
 	
-    var total = hBar.data('total'),
-        value = hBar.data('value');
    
-    if( value < 0 ){
-		console.log("you dead, reset");
-        return;
-    }
-    // max damage is essentially quarter of max life
-    var damage = 100;
-    var newValue = value + damage;
-    
 	// calculate the percentage of the total width
-    var hitWidth = ( newValue / total ) * 100 + "%";
+    var hitWidth = ( depression / maxDepression ) * 100 + "%";
     
-	if( ( newValue / total ) * 100 > 100 ){
+	if( ( depression / maxDepression ) * 100 > 100 ){
 		hitWidth = "100%";
     }
 	
     // show hit bar and set the width
     hit.css({'display':'block','width':hitWidth});
-    hBar.data('value', newValue);
 }

@@ -149,6 +149,8 @@ function Hero(){
 	 this.size = 0.4;
 	 this.alive = true;
 	 this.legContactList = [];
+	 this.depression = 0;
+	 this.maxDepression = 10;
 }
 Hero.prototype.getOrigin = function()
 {
@@ -309,7 +311,6 @@ Hero.prototype.proclaimCause = function()
 {
 	addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"hero","Hey fuck you!");
 }
-
 Hero.prototype.addToUpdate = function(){
 	
 	currentScene.updateList.push( createUpdate( function( self ){
@@ -317,7 +318,12 @@ Hero.prototype.addToUpdate = function(){
 		{
 			self.iterations = 1;
 		}
-		updatePositionDialog(self.args.hero.collisionList[0].GetPosition().x-8,self.args.hero.collisionList[0].GetPosition().y+10,"hero");
+		updatePositionDialog(self.args.hero.collisionList[0].GetPosition().x-5,self.args.hero.collisionList[0].GetPosition().y+7,"hero");
+		
+		if(self.args.hero.depression >= self.args.hero.maxDepression)
+		{
+			addDialog(self.args.hero.collisionList[0].GetPosition().x-5,self.args.hero.collisionList[0].GetPosition().y+8,"hero","PLEASE KILL ME!!!!");
+		}
 	}, 0, 1, { hero: this } ) );
 }
 Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
