@@ -11,7 +11,10 @@ function play(track) {
 			
 		case 'intro_loop' :
 			track = new Audio('./res/audio/intro_loop.mp3')
-			track.loop = true;
+			track.addEventListener('ended', function() {
+				this.currentTime = 0;
+				this.play();
+			}, false);
 			break;
 			
 		case 'stage1' :
