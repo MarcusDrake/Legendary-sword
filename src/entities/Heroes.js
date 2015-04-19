@@ -263,8 +263,22 @@ Hero.prototype.drawBody = function(x,y){
 		this.bodyLeftArm,
 		this.bodyRightArm
 	];
+	
+	//this.addToUpdate();
 }
+/*
+Hero.prototype.addToUpdate = function(){
+	
+	currentScene.updateList.push( createUpdate( function( self ){
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+		}
+		updatePositionDialog(self.args.hero.collisionList[0].GetPosition().x-8,self.args.hero.collisionList[0].GetPosition().y+10,"hero");
+	}, 0, 1, { hero: this } ) );
+}*/
 Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
+
 	var target = undefined;
 	if ( fixtureA == this.fixtureLeftLeg || fixtureA == this.fixtureRightLeg )
 	{
@@ -278,18 +292,17 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 	{
 		return;
 	}
+	
 	if ( target.userData == undefined )
 	{
 		return;
 	}
+	console.log(target.userData);
 	if ( target.userData != "block" )
 	{
 		return;
 	}
-	if(this.test == 0)
-	{
-		return;
-	}
+	console.log("wwhooh");
 	if ( !beginContact )
 	{
 		var index = this.legContactList.indexOf( target );
@@ -300,6 +313,7 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 		this.legContactList.splice( index, 1 )
 		return;
 	}
+	console.log(target);
 	this.legContactList.push( target )
 }
 Hero.prototype.jump = function( fixture ){
