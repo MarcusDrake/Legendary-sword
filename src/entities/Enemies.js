@@ -26,7 +26,6 @@ function WormBoss( position ){
 
 WormBoss.prototype.takeDamage = function( damage ){
 
-	console.log("boss damaged");
 	switch(Math.floor((Math.random() * 4) + 1))
 	{
 		case 1:
