@@ -2,7 +2,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
-	this.axisOffset = 30;
+	this.axisOffset = 65;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -39,11 +39,16 @@ Map.prototype.destroyBlock = function( x, y ){
 	{
 		return;
 	}
+	if ( this.grid[ x ][ y ].content.userData == undefined )
+	{
+		return;
+	}
 	if ( this.grid[ x ][ y ].content.userData != "block" )
 	{
 		return;
 	}
-	destroyBody( this.grid[ x ][ y ].content );
+	
+	destroyBody( this.grid[ x ][ y ].content.body );
 	this.grid[ x ][ y ].content = undefined;
 }
 Map.prototype.destroyLiquid = function( x, y ){
@@ -206,8 +211,6 @@ Map.prototype.createBlock = function( x, y, type ){
 	fixtureDef.density = 100;
 	this.bd.type = b2_staticBody;
 	this.bd.position.Set( x, y );
-	var body = world.CreateBody(this.bd);
-	var fixture = body.CreateFixtureFromDef( fixtureDef );
 	switch( type ) {
 		case TILE_GROUND :
 			

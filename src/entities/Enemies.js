@@ -51,7 +51,8 @@ WormBoss.prototype.takeDamage = function( damage ){
 		destroyBodies( this.collisionList );
 		var pos = this.collisionList[0].GetPosition();
 		setTimeout( function(){
-			new Waifu( pos.x, pos.y);
+			console.log(  pos );
+			currentScene.map.createCharacter( 330, 13, CHARACTER_WAIFU );
 		},5 );
 		removeDialog("WormBoss"+this.id);
 		this.alive = false;

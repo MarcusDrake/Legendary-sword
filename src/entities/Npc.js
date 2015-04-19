@@ -547,12 +547,7 @@ Waifu.prototype.takeDamage = function(){
 
 }
 Waifu.prototype.dealDamage = function( creature ){
-	if ( this.damageCooldown > 0 )
-	{
-		return;
-	}
-	this.damageCooldown = 20;
-	creature.takeDamage( this.damage );
+	
 }
 Waifu.prototype.collideWith = function( fixture ){
 
@@ -754,7 +749,6 @@ Waifu.prototype.drawBody = function( x, y ){
 		this.bodyRightArm,
 	];
 	
-	this.addToUpdate();
 }
 
 Waifu.prototype.addToUpdate = function(){
