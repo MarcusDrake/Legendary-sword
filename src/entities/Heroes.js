@@ -74,7 +74,8 @@ Sword.prototype.drawBody = function(x,y)
 }
 
 function Hero(){
-	 this.health = 2;
+	 this.health = 4;
+	 this.maxHealth = 4;
 	 this.damage = 0;
 	
 	 this.bodyTorso = null;
@@ -87,12 +88,15 @@ function Hero(){
 	 this.size = 0.4;
 }
 
+<<<<<<< HEAD
 Hero.prototype.takeDamage = function( damage ){
 	sfx('hurt');
 	this.health -= damage;
 	// DEBUG:
 	console.log( this.health );
 }
+=======
+>>>>>>> 87aa46c6acae92c9cabfe2f4a2acb8f035959d89
 
 Hero.prototype.drawBody = function(x,y){
 	var bodyDef = new b2BodyDef();
@@ -247,6 +251,8 @@ Hero.prototype.collideWith = function( fixture ){
 }
 Hero.prototype.takeDamage = function( damage ){
 	this.health -= damage;
+	
+	updateHealthBar(this.health, this.maxHealth);
 	if ( this.health <= 0 )
 	{
 		console.log( "DESTROYING" );
