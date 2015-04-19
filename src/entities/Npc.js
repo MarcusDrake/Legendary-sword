@@ -5,6 +5,7 @@ function Blacksmith( position ){
 	this.damageCooldown = 0;
 	this.collisionList = [];
 	this.size = 0.3;
+	this.id = "blacksmith"+Math.floor((Math.random() * 100) + 1);
 }
 
 Blacksmith.prototype.takeDamage = function(){
@@ -237,19 +238,15 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	this.addToUpdate();
 }
 
-Hero.prototype.addToUpdate = function(){
+Blacksmith.prototype.addToUpdate = function(){
 	
 	currentScene.updateList.push( createUpdate( function( self ){
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
 		}
-		updatePositionDialog(self.args.blob.collisionList[0].GetPosition().x,self.args.blob.collisionList[0].GetPosition().y,"blob");
-		if ( self.args.blob.damageCooldown > 0 )
-		{
-			self.args.blob.damageCooldown--;
-		}
-	}, 0, 1, { blob: this } ) );
+		updatePositionDialog(self.args.blacksmith.collisionList[0].GetPosition().x,self.args.blacksmith.collisionList[0].GetPosition().y,"blacksmith"+self.args.blacksmith.id);
+	}, 0, 1, { blacksmith: this } ) );
 }
 
 
