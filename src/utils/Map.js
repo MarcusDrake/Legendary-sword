@@ -1,6 +1,4 @@
 
-var dialogList = [[20,20,"blacksmith","Thank You! But Our Princess Is In Another Castle!"], [40,20,"princess","ohh nooo!!!"]];
-
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
