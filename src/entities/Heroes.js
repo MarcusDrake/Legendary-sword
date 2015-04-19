@@ -68,8 +68,6 @@ Sword.prototype.drawBody = function(x,y)
 	
 	var anchor = new b2Vec2(x-2-5*this.size, y-2.5*this.size);
 	jd.InitializeAndCreate(this.bodyLower, this.bodySword, anchor);
-	
-	
 
 }
 
@@ -88,15 +86,12 @@ function Hero(){
 	 this.size = 0.4;
 }
 
-<<<<<<< HEAD
 Hero.prototype.takeDamage = function( damage ){
 	sfx('hurt');
 	this.health -= damage;
 	// DEBUG:
 	console.log( this.health );
 }
-=======
->>>>>>> 87aa46c6acae92c9cabfe2f4a2acb8f035959d89
 
 Hero.prototype.drawBody = function(x,y){
 	var bodyDef = new b2BodyDef();
