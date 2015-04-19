@@ -167,16 +167,16 @@ Blob.prototype.takeDamage = function( damage ){
 	{
 		case 1:
 
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Gaaaw!");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Gaaaw!");
 			break;
 		case 2:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Kaaahhkkk!");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Kaaahhkkk!");
 			break;
 		case 3:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Glurp glurp...");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Glurp glurp...");
 			break;
 		case 4:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"*whimper*");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"*whimper*");
 
 			break;
 	}
