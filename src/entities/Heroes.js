@@ -266,15 +266,20 @@ Hero.prototype.collideWith = function( fixture ){
 }
 Hero.prototype.takeDamage = function( damage ){
 	this.health -= damage;
+	this.addblood = true;
+
 	sfx('hurt');
+
 	updateHealthBar(this.health, this.maxHealth);
 	if ( this.health <= 0 )
 	{
 		destroyBodies( this.collisionList );
+
 		destroyJoint( mouseJoint );
 		this.alive = false;
 		
 		sfx('dead_hero');
+
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		
