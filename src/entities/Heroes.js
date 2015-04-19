@@ -303,7 +303,7 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 	this.legContactList.push( target )
 }
 Hero.prototype.jump = function( fixture ){
-	if ( this.legContactList == 0 )
+	if ( this.legContactList.length == 0 )
 	{
 		return;
 	}
