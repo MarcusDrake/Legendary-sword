@@ -68,7 +68,7 @@ function sfx(sfx) {
 			}
 			break;
 			
-		case 'wormboss_hurt' :
+		case 'death' :
 			sfx = new Audio('./res/audio/sfx/death.wav')
 			break;
 		
