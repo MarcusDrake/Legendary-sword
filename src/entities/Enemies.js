@@ -8,6 +8,7 @@ function Blob( position ){
 	this.size = 5;
 }
 Blob.prototype.takeDamage = function( damage ){
+	sfx('hit');
 	this.health -= damage;
 	if ( this.health <= 0 )
 	{

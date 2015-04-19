@@ -5,7 +5,7 @@ function TestScene() {
 	camera.position.x = 4;
 	camera.position.y = 4;
 	camera.position.z = 12;
-	play('intro');
+	play('stage1');
 	
 	world.SetContactListener( this );
 	
