@@ -17,6 +17,10 @@ function play(track) {
 		case 'stage1' :
 			track = new Audio('./res/audio/stage_1.mp3')
 			break;
+			
+		case 'stage2' :
+			track = new Audio('./res/audio/stage_2.mp3')
+			break;
 		}
 	track.volume = 0.5;
 	track.play();
