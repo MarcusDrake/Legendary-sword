@@ -26,3 +26,59 @@
 	left: 47%;
 	top:20%
 }
+
+.health-bar {
+position: absolute;
+  margin:20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 200px;
+  height: 20px;
+  padding: 5px;
+  background: #ddd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+.health-hit {
+   background: #c54;
+  position: relative;
+  top: 0;
+  right: 0;
+  height: 10px;
+  width: 100%;
+  
+  transition: width .3s linear;
+}
+.depression-bar {
+position: absolute;
+  top:40px;
+  margin:20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 200px;
+  height: 20px;
+  padding: 5px;
+  background: #ddd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+.depression-hit {
+  background: #009933;
+  width: 10%;
+  display: none;
+  position: relative;
+  top: 0;
+  right: 0;
+  height: 10px;
+  width: 0px;
+  
+  transition: width .3s linear;
+}
