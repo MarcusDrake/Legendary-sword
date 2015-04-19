@@ -46,6 +46,7 @@ WormBoss.prototype.takeDamage = function( damage ){
 	this.health -= damage;
 	if ( this.health <= 0 )
 	{
+		sfx('death');
 		destroyBodies( this.collisionList );
 		removeDialog("WormBoss"+this.id);
 		this.alive = false;
