@@ -181,6 +181,11 @@ Map.prototype.readGrid = function(){
 					{
 						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_BLACKSMITH );
 					}
+				case tile.waifu :
+					if ( this.shouldDraw( x, y ) )
+					{
+						this.grid[ x ][ y ].content = this.createCharacter( x, y, CHARACTER_WAIFU );
+					}
 				break;
 			}
 		}
@@ -329,6 +334,12 @@ Map.prototype.createCharacter = function( x, y, type ){
 			
 		case  CHARACTER_BLACKSMITH :
 			character = new Blacksmith();
+			character.drawBody( x, y+1 );
+			break;
+		case  CHARACTER_WAIFU :
+			console.log( "RUN" );
+			
+			character = new Waifu();
 			character.drawBody( x, y+1 );
 			break;
 		case  CHARACTER_BLOBPET :
