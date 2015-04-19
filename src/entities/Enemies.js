@@ -31,10 +31,10 @@ WormBoss.prototype.takeDamage = function( damage ){
 			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"WormBoss"+this.id,"SCHLURP...");
 			break;
 		case 2:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"WormBoss"+this.id,"SCHHHHH...");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"WormBoss"+this.id,"SCHHHHH!");
 			break;
 		case 3:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"WormBoss"+this.id,"GRRRRRRR!");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"WormBoss"+this.id,"Chrrrick chrrrick chrrrick chrrrrick...");
 			break;
 		case 4:
 			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"WormBoss"+this.id,"*whimper*");
@@ -166,16 +166,18 @@ Blob.prototype.takeDamage = function( damage ){
 	switch(Math.floor((Math.random() * 4) + 1))
 	{
 		case 1:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Hey fuck you!");
+
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Gaaaw!");
 			break;
 		case 2:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Ouch!!");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Kaaahhkkk!");
 			break;
 		case 3:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,"Oh no you didn't! You are dead now");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Glurp glurp...");
 			break;
 		case 4:
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,this.id,":(");
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"*whimper*");
+
 			break;
 	}
 

@@ -59,7 +59,7 @@ function sfx(sfx) {
 				sfx = new Audio('./res/audio/sfx/hurt2.wav')
 			}
 			break;
-			
+		//TODO: Update WormBoss sounds
 		case 'wormboss_hit' :
 			if (randFloat < 0.5) {
 				sfx = new Audio('./res/audio/sfx/hurt.wav')
@@ -67,7 +67,7 @@ function sfx(sfx) {
 				sfx = new Audio('./res/audio/sfx/hurt2.wav')
 			}
 			break;
-			
+		//TODO: Update WormBoss sounds	
 		case 'wormboss_hurt' :
 			if (randFloat < 0.5) {
 				sfx = new Audio('./res/audio/sfx/hurt.wav')
