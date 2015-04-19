@@ -186,7 +186,7 @@ Map.prototype.createBlock = function( x, y, type ){
 	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = b1;
 	fixtureDef.density = 100;
-	this.bd.type = b2_kinematicBody;
+	this.bd.type = b2_staticBody;
 	this.bd.position.Set( x, y );
 	var body = world.CreateBody(this.bd);
 	var fixture = body.CreateFixtureFromDef( fixtureDef );
@@ -200,6 +200,7 @@ Map.prototype.createBlock = function( x, y, type ){
 	}
 	var body = world.CreateBody(this.bd);
 	var fixture = body.CreateFixtureFromShape( b1 );
+	fixture.userData = "block";
 	return body;
 }
 
@@ -236,6 +237,7 @@ Map.prototype.createBoulder = function( x, y, type ){
 	body = world.CreateBody(bd);
 	
 	var fixture = body.CreateFixtureFromDef(fixtureDef);
+	fixture.userData = "block";
 	return body;
 }
 Map.prototype.createChain = function( x, y, type ){
@@ -283,6 +285,7 @@ Map.prototype.createRamp = function( x, y, type ){
 			var fixture = this.ground.CreateFixtureFromShape(shape, 0);
 			break;
 	}
+	fixture.userData = "block";
 	return fixture;
 }
 Map.prototype.createCharacter = function( x, y, type ){

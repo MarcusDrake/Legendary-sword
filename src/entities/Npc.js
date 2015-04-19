@@ -328,10 +328,10 @@ BlobPet.prototype.drawBody = function( x, y ){
 		
 		sfx('blob');
 		if ( directionFromTo( positions[ 0 ], hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
-			particleGroup.ApplyForce( new b2Vec2( 110, 170 ), { x: positions[0], y: positions[1] } );
+			particleGroup.ApplyForce( new b2Vec2( 110, 170 * (gravity/10) ), { x: positions[0], y: positions[1] } );
 		}
 		else{
-			particleGroup.ApplyForce( new b2Vec2( -110, 170 ), { x: positions[0], y: positions[1] } );
+			particleGroup.ApplyForce( new b2Vec2( -110, 170 * (gravity/10) ), { x: positions[0], y: positions[1] } );
 		}
 	}, 0, 100, { particleSystem: particleSystem } ) );
 }

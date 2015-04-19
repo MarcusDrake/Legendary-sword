@@ -28,19 +28,11 @@ TestScene.prototype.init = function() {
 	}, 1, 0, { map: this.map } ) );
 }
 
-TestScene.prototype.BeginContact = function( contact ) {
-	var fixtureA = contact.GetFixtureA();
-	var fixtureB = contact.GetFixtureB();
-	if ( fixtureA.userData != undefined && fixtureA.userData != fixtureB.userData )
-	{
-		console.log( fixtureA, fixtureB );
-	}
-};
-
 TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 	//console.log( sword.bodySword );
+	hero.updateCanJump( true, fixtureA, fixtureB );
 	if ( fixtureA == sword.swordSensor || fixtureB == sword.swordSensor )
 	{
 		sword.BeginContactBody( fixtureA, fixtureB );
@@ -55,6 +47,10 @@ TestScene.prototype.BeginContactBody = function( contact ) {
 	}
 	fixtureA.userData.collideWith( fixtureB );
 	fixtureB.userData.collideWith( fixtureA );
+};
+
+TestScene.prototype.EndContactBody = function( contact ) {
+	hero.updateCanJump( false, contact.GetFixtureA(), contact.GetFixtureB() );
 };
 
 TestScene.prototype.Keyboard = function( char ) {

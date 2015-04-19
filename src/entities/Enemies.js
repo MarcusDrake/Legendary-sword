@@ -98,13 +98,18 @@ Blob.prototype.addToUpdate = function(){
 		var fixture = self.args.blob.fixture;	
 		
 		position = self.args.blob.collisionList[ 0 ].GetPosition();
-		
-		var force = 2;
+		var yForce = 150 * self.args.blob.size * gravity;
+		var xForce = 0;
 		if ( directionFromTo( position.x, hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
-			fixture.body.ApplyForce( new b2Vec2( 75 * (force * (self.args.blob.size*12)), 85 * (force * (self.args.blob.size*12)) ), { x: position.x, y: position.y } );
+			xForce = 2500 * self.args.blob.size;
+			var force = new b2Vec2( xForce, yForce );
+			fixture.body.ApplyForce( force, position );
 		}
 		else{
-			fixture.body.ApplyForce( new b2Vec2( -75 * (force * (self.args.blob.size*12)), 85 * (force * (self.args.blob.size*12)) ), { x: position.x, y: position.y } );
+			//new b2Vec2( -75 * (force * (self.args.blob.size*12)), calculateForce( 170, self.args.blob.size*12)
+			xForce = -2500 * self.args.blob.size;
+			var force = new b2Vec2( xForce, yForce );
+			fixture.body.ApplyForce( force, position );
 		}
 	}, 0, 100, { blob: this } ) );
 }

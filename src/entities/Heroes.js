@@ -48,7 +48,6 @@ Sword.prototype.dealDamage = function( creature ){
 		return;
 	}
 	this.damageCooldown = 20;
-	console.log( creature );
 	creature.takeDamage( this.damage );
 }
 Sword.prototype.drawBody = function(x,y)
@@ -111,6 +110,7 @@ function Hero(){
 	 this.collisionList = [];
 	 this.size = 0.4;
 	 this.alive = true;
+	 this.legContactList = [];
 }
 
 Hero.prototype.drawBody = function(x,y){
@@ -150,6 +150,7 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.position.Set(x+2.5*this.size, y-5*this.size);
 	this.bodyLeftLeg = world.CreateBody(bodyDef);
 	var fixture = this.bodyLeftLeg.CreateFixtureFromDef(fixtureDef);
+	this.fixtureLeftLeg = fixture;
 	fixture.userData = this;
 
 	jd.enableLimit = true;
@@ -174,6 +175,7 @@ Hero.prototype.drawBody = function(x,y){
 	bodyDef.position.Set(x-0.5*this.size, y-5*this.size);
 	this.bodyRightLeg = world.CreateBody(bodyDef);
 	var fixture = this.bodyRightLeg.CreateFixtureFromDef(fixtureDef);
+	this.fixtureRightLeg = fixture;
 	fixture.userData = this;
 
 	jd.enableLimit = true;
@@ -260,7 +262,52 @@ Hero.prototype.drawBody = function(x,y){
 		this.bodyRightArm
 	];
 }
-
+Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
+	var target = undefined;
+	if ( fixtureA == this.fixtureLeftLeg || fixtureA == this.fixtureRightLeg )
+	{
+		target = fixtureB;
+	}
+	if ( fixtureB == this.fixtureLeftLeg || fixtureB == this.fixtureRightLeg )
+	{
+		target = fixtureA;
+	}
+	if ( target == undefined )
+	{
+		return;
+	}
+	if ( target.userData == undefined )
+	{
+		return;
+	}
+	if ( target.userData != "block" )
+	{
+		return;
+	}
+	if(this.test == 0)
+	{
+		return;
+	}
+	if ( !beginContact )
+	{
+		var index = this.legContactList.indexOf( target );
+		if ( index == -1 )
+		{
+			return;
+		}
+		this.legContactList.splice( index, 1 )
+		return;
+	}
+	this.legContactList.push( target )
+}
+Hero.prototype.jump = function( fixture ){
+	if ( this.legContactList == 0 )
+	{
+		return;
+	}
+	var pos = this.bodyTorso.GetPosition();
+	this.bodyTorso.ApplyForce( new b2Vec2( 0, 300000 * this.size * (gravity/10) ), { x: pos.x, y: pos.y } );
+}
 Hero.prototype.collideWith = function( fixture ){
 	
 }
