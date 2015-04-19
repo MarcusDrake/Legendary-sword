@@ -121,13 +121,13 @@ Sword.prototype.connectToHero = function()
 	var heroPos = hero.getOrigin();
 	x = heroPos.x;
 	y = heroPos.y;
-	this.drawBody(x+0.4,y,true);
-	this.drawGuard(x,y,7.5,true);
+	this.drawBody(x,y,true);
+	this.drawGuard(x,y,8,true);
 	
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 
-	var anchor = new b2Vec2(x-2.3*this.size, y-2*this.size);
+	var anchor = new b2Vec2(x-2.5*this.size, y-2*this.size);
 	jd.InitializeAndCreate(hero.bodyLeftArm, sword.bodySword, anchor);
 	createMouseJoint();
 	hero.active = true;
@@ -135,10 +135,8 @@ Sword.prototype.connectToHero = function()
 
 function Hero(){
 
-
-	 this.health = 2000;
-	 this.maxHealth = 2000;
-
+	 this.health = 20;
+	 this.maxHealth = 20;
 
 	 this.damage = 0;
 	
@@ -167,7 +165,7 @@ Hero.prototype.drawBody = function(x,y){
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 	var box = new b2PolygonShape();
-	box.SetAsBoxXY(2*this.size, 3*this.size);
+	box.SetAsBoxXY(2.5*this.size, 3*this.size);
 	var fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = CATEGORY_BODY;
 	fixtureDef.filter.maskBits = MASK_BODY;
@@ -191,10 +189,10 @@ Hero.prototype.drawBody = function(x,y){
 	fixtureDef.filter.categoryBits = CATEGORY_BODY;
 	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
-	fixtureDef.density = 21;
+	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(x+2.3*this.size, y-5*this.size);
+	bodyDef.position.Set(x+2.5*this.size, y-5*this.size);
 	this.bodyLeftLeg = world.CreateBody(bodyDef);
 	var fixture = this.bodyLeftLeg.CreateFixtureFromDef(fixtureDef);
 	this.fixtureLeftLeg = fixture;
@@ -204,7 +202,7 @@ Hero.prototype.drawBody = function(x,y){
 	jd.lowerAngle = -45 * Math.PI / 180;
 	jd.upperAngle =  45 * Math.PI / 180;
   
-	var anchor = new b2Vec2(x+2.3*this.size, y-3*this.size);
+	var anchor = new b2Vec2(x+2.5*this.size, y-3*this.size);
 	jd.InitializeAndCreate(this.bodyTorso, this.bodyLeftLeg, anchor);
 	
 	//Right leg
@@ -216,10 +214,10 @@ Hero.prototype.drawBody = function(x,y){
 	fixtureDef.filter.categoryBits = CATEGORY_BODY;
 	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
-	fixtureDef.density = 21;
+	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(x-0.3*this.size, y-5*this.size);
+	bodyDef.position.Set(x-0.5*this.size, y-5*this.size);
 	this.bodyRightLeg = world.CreateBody(bodyDef);
 	var fixture = this.bodyRightLeg.CreateFixtureFromDef(fixtureDef);
 	this.fixtureRightLeg = fixture;
@@ -229,14 +227,14 @@ Hero.prototype.drawBody = function(x,y){
 	jd.lowerAngle = -45 * Math.PI / 180;
 	jd.upperAngle =  45 * Math.PI / 180;
 	
-	var anchor = new b2Vec2(x-0.3*this.size, y-3*this.size);
+	var anchor = new b2Vec2(x-0.5*this.size, y-3*this.size);
 	jd.InitializeAndCreate(this.bodyTorso, this.bodyRightLeg, anchor);
 	
 	//left arm
 	jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 	var box = new b2PolygonShape();
-	box.SetAsBoxXY(0.8*this.size, 2*this.size);
+	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = CATEGORY_NON_BODY;
 	fixtureDef.filter.maskBits = MASK_NON_BODY;
@@ -244,17 +242,17 @@ Hero.prototype.drawBody = function(x,y){
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(x-1.5*this.size, y);
+	bodyDef.position.Set(x-2.5*this.size, y);
 	this.bodyLeftArm = world.CreateBody(bodyDef);
 	var fixture = this.bodyLeftArm.CreateFixtureFromDef(fixtureDef);
 	fixture.userData = this;
 
-	var anchor = new b2Vec2(x-1.5*this.size, y+1.8*this.size);
+	var anchor = new b2Vec2(x-2.5*this.size, y+2*this.size);
 	jd.InitializeAndCreate(this.bodyTorso, this.bodyLeftArm, anchor);
 	
 	//Right arm
 	var box = new b2PolygonShape();
-	box.SetAsBoxXY(0.8*this.size, 2*this.size);
+	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = CATEGORY_NON_BODY;
 	fixtureDef.filter.maskBits = MASK_NON_BODY;
@@ -262,7 +260,7 @@ Hero.prototype.drawBody = function(x,y){
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(x+3.5*this.size, y);
+	bodyDef.position.Set(x+4.5*this.size, y);
 	this.bodyRightArm = world.CreateBody(bodyDef);
 	var fixture = this.bodyRightArm.CreateFixtureFromDef(fixtureDef);
 	fixture.userData = this;
@@ -271,7 +269,7 @@ Hero.prototype.drawBody = function(x,y){
 	jd.lowerAngle = 0 * Math.PI / 180;
 	jd.upperAngle = 180 * Math.PI / 180;
 	
-	var anchor = new b2Vec2(x+3.5*this.size, y+1.8*this.size);
+	var anchor = new b2Vec2(x+4.5*this.size, y+2*this.size);
 	jd.InitializeAndCreate(this.bodyTorso, this.bodyRightArm, anchor);
   
 	//head

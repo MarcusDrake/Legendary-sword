@@ -2,7 +2,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
-	this.axisOffset = 40;
+	this.axisOffset = 30;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -37,18 +37,9 @@ Map.prototype.shouldDraw = function( x, y ){
 Map.prototype.destroyBlock = function( x, y ){
 	if ( this.grid[ x ][ y ].content == undefined )
 	{
-		return;
+		return;this.currentAxis
 	}
-	if ( this.grid[ x ][ y ].content.userData == undefined )
-	{
-		return;
-	}
-	if ( this.grid[ x ][ y ].content.userData != "block" )
-	{
-		return;
-	}
-	
-	destroyBody( this.grid[ x ][ y ].content.body );
+	destroyBody( this.grid[ x ][ y ].content );
 	this.grid[ x ][ y ].content = undefined;
 }
 Map.prototype.destroyLiquid = function( x, y ){
@@ -211,6 +202,8 @@ Map.prototype.createBlock = function( x, y, type ){
 	fixtureDef.density = 100;
 	this.bd.type = b2_staticBody;
 	this.bd.position.Set( x, y );
+	var body = world.CreateBody(this.bd);
+	var fixture = body.CreateFixtureFromDef( fixtureDef );
 	switch( type ) {
 		case TILE_GROUND :
 			
@@ -222,11 +215,10 @@ Map.prototype.createBlock = function( x, y, type ){
 	var body = world.CreateBody(this.bd);
 	var fixture = body.CreateFixtureFromShape( b1 );
 	fixture.userData = "block";
-	return fixture;
+	return body;
 }
 
 Map.prototype.createLiquid = function( x, y, type ){
-	// type = LIQUID_WATER or LIQUID_LAVA
 	var box = new b2PolygonShape();
 	box.SetAsBoxXYCenterAngle(0.4, 0.4, new b2Vec2( x, y ), 0);
 	this.particleSystem.SetRadius( 0.2 );
@@ -243,7 +235,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 		break;
 	}
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
-	return this.particleSystem;
+	return this.particleSystem;*/
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
@@ -260,7 +252,7 @@ Map.prototype.createBoulder = function( x, y, type ){
 	
 	var fixture = body.CreateFixtureFromDef(fixtureDef);
 	fixture.userData = "block";
-	return fixture;
+	return body;
 }
 Map.prototype.createChain = function( x, y, type ){
 	var prevBody = this.ground;
@@ -325,7 +317,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 					hero.proclaimCause();
 					$('#swordTakeButton').show();
 				}, 0, 100 ) );
-			}, 0, 1, {x:x,y:y} ) );
+			}, 0, 50, {x:x,y:y} ) );
 			
 			sword.drawBody(x,y+3.7);
 			sword.drawGuard(x,y+10,29);
