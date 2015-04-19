@@ -36,6 +36,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(2.5*this.size, 3*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -51,6 +53,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -73,6 +77,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -95,6 +101,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -121,6 +129,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -141,6 +151,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1.5*this.size, 1.5*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -164,6 +176,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(2*this.size, 0.5*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -187,6 +201,8 @@ Blacksmith.prototype.drawBody = function( x, y ){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(0.5*this.size, 1.5*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
