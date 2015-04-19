@@ -11,8 +11,9 @@ function Blob( position ){
 }
 
 function WormBoss( position ){
+	play( 'boss' );
 	this.position = position;
-	this.health = 1;
+	this.health = 25;
 	this.damage = 2;
 	this.damageCooldown = 0;
 	this.collisionList = [];
@@ -51,12 +52,12 @@ WormBoss.prototype.takeDamage = function( damage ){
 		destroyBodies( this.collisionList );
 		var pos = this.collisionList[0].GetPosition();
 		setTimeout( function(){
-			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"hero","I didn't save my wife, but at least im a pro coder!");
+			addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","I didn't save my wife, but at least im a pro coder!");
 			setTimeout( function(){
 				$( '#theend' ).fadeIn();
-			}, 1500);
+			}, 3500);
 			
-		},5 );
+		},150 );
 		removeDialog("WormBoss"+this.id);
 		this.alive = false;
 	}

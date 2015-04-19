@@ -16,16 +16,20 @@ function play(track) {
 			repeat = false;
 			break;
 			
-		case 'stage1' :
+		case 'intro_loop' :
 			track = new Audio('./res/audio/intro_loop.mp3')
 			break;
 		
-		case 'slash' :
+		case 'stage1' :
+			var randFloat = Math.random();
 			if (randFloat < 0.5) {
 				track = new Audio('./res/audio/stage_1.mp3')
 			} else {
 				track = new Audio('./res/audio/stage_2.mp3')
 			}
+			break;
+		case 'boss' :
+			track = new Audio('./res/audio/boss_fight.mp3')
 			break;
 		}
 
