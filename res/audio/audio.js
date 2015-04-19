@@ -16,16 +16,16 @@ function play(track) {
 			repeat = false;
 			break;
 			
-		case 'intro_loop' :
+		case 'stage1' :
 			track = new Audio('./res/audio/intro_loop.mp3')
 			break;
-			
-		case 'stage1' :
-			track = new Audio('./res/audio/stage_1.mp3')
-			break;
-			
-		case 'stage2' :
-			track = new Audio('./res/audio/stage_2.mp3')
+		
+		case 'slash' :
+			if (randFloat < 0.5) {
+				track = new Audio('./res/audio/stage_1.mp3')
+			} else {
+				track = new Audio('./res/audio/stage_2.mp3')
+			}
 			break;
 		}
 
