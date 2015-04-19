@@ -264,8 +264,9 @@ Hero.prototype.drawBody = function(x,y){
 		this.bodyRightArm
 	];
 	
-	this.addToUpdate();
+	//this.addToUpdate();
 }
+/*
 Hero.prototype.addToUpdate = function(){
 	
 	currentScene.updateList.push( createUpdate( function( self ){
@@ -275,8 +276,9 @@ Hero.prototype.addToUpdate = function(){
 		}
 		updatePositionDialog(self.args.hero.collisionList[0].GetPosition().x-8,self.args.hero.collisionList[0].GetPosition().y+10,"hero");
 	}, 0, 1, { hero: this } ) );
-}
+}*/
 Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
+
 	var target = undefined;
 	if ( fixtureA == this.fixtureLeftLeg || fixtureA == this.fixtureRightLeg )
 	{
@@ -290,18 +292,17 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 	{
 		return;
 	}
+	
 	if ( target.userData == undefined )
 	{
 		return;
 	}
+	console.log(target.userData);
 	if ( target.userData != "block" )
 	{
 		return;
 	}
-	if(this.test == 0)
-	{
-		return;
-	}
+	console.log("wwhooh");
 	if ( !beginContact )
 	{
 		var index = this.legContactList.indexOf( target );
@@ -312,10 +313,12 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 		this.legContactList.splice( index, 1 )
 		return;
 	}
+	console.log(target);
 	this.legContactList.push( target )
 }
 Hero.prototype.jump = function( fixture ){
-	if ( this.legContactList == 0 )
+	console.log(this.legContactList);
+	if ( this.legContactList.length == 0 )
 	{
 		return;
 	}
