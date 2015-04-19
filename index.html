@@ -23,6 +23,7 @@
 	<script src="src/entities/Heroes.js"></script>
 	<script src="src/entities/Enemies.js"></script>
 	<script src="src/entities/Npc.js"></script>
+	<script src="src/utils/Ui.js"></script>
 	<script src="src/utils/Position.js"></script>
 	<script src="src/utils/BaseContacts.js"></script>
 	<script src="src/utils/Map.js"></script>
@@ -30,6 +31,7 @@
 	<script src="res/compiled_example.js"></script>
 	<script src="res/compiled_test.js"></script>
 	<script src="res/compiled_map1.js"></script>
+	<script src="res/audio/audio.js"></script>
 	
 
 	<body onload="initGame()"></body>
@@ -38,6 +40,16 @@
 	<div id="overlay">
 		<div id="textboxHero" class="textbox texthero">
 			heje
+		</div>
+		
+		<div class="health-bar">
+			  <div class="health-hit"></div>
+		</div>
+		
+		<div class="depression-bar" data-total="1000" data-value="0">
+		  <div class="depression-bar-back">
+			  <div class="depression-hit"></div>
+		  </div>
 		</div>
 	</div>
 	

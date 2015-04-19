@@ -95,18 +95,12 @@ Sword.prototype.drawBody = function(x,y)
 	
 	this.bodySword.CreateFixtureFromDef(fixtureDef);
 	
-		
-	/*
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
-	*/
-	
-	
 
 }
 
 function Hero(){
-	 this.health = 100;
+	 this.health = 4;
+	 this.maxHealth = 4;
 	 this.damage = 0;
 	
 	 this.bodyTorso = null;
@@ -273,12 +267,15 @@ Hero.prototype.collideWith = function( fixture ){
 }
 Hero.prototype.takeDamage = function( damage ){
 	this.health -= damage;
+	sfx('hurt');
+	updateHealthBar(this.health, this.maxHealth);
 	if ( this.health <= 0 )
 	{
 		destroyBodies( this.collisionList );
 		destroyJoint( mouseJoint );
 		this.alive = false;
 		
+		sfx('dead_hero');
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		

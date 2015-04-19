@@ -1,5 +1,6 @@
 
 var dialogList = [[20,20,"blacksmith","Thank You! But Our Princess Is In Another Castle!"], [40,20,"princess","ohh nooo!!!"]];
+
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
@@ -191,12 +192,14 @@ Map.prototype.createBlock = function( x, y, type ){
 	var fixture = body.CreateFixtureFromDef( fixtureDef );
 	switch( type ) {
 		case TILE_GROUND :
-		
+			
 		break;
 		case TILE_BREAKABLE :
 		
 		break;
 	}
+	var body = world.CreateBody(this.bd);
+	var fixture = body.CreateFixtureFromShape( b1 );
 	return body;
 }
 
@@ -221,7 +224,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
-	circle.radius = 0.4;
+	circle.radius = 0.6;
 	fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = CATEGORY_DEFAULT;
 	fixtureDef.filter.maskBits = MASK_DEFAULT;
@@ -230,7 +233,6 @@ Map.prototype.createBoulder = function( x, y, type ){
 	bd = new b2BodyDef();
 	bd.type = b2_dynamicBody;
 	bd.position.Set( x, y );
-	
 	body = world.CreateBody(bd);
 	
 	var fixture = body.CreateFixtureFromDef(fixtureDef);
