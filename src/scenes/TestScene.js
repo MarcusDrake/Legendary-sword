@@ -26,7 +26,12 @@ TestScene.prototype.init = function() {
 			self.iterations = 1;
 		}
 	}, 1, 0, { map: this.map } ) );
+	
+	$("#letterbox-top").fadeIn();
+	$("#letterbox-bottom").fadeIn();
 }
+
+
 
 TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();
