@@ -19,13 +19,14 @@ function WormBoss( position ){
 	this.id = "WormBoss"+Math.floor((Math.random() * 100) + 1);
 	this.alive = true;
 	this.size = 20;
-	this.currentJumpIndex = 0;
+	this.currentJumpIndex = 1;
+	this.dir = 0;
 
 }
 
 WormBoss.prototype.takeDamage = function( damage ){
 
-	
+	console.log("boss damaged");
 	switch(Math.floor((Math.random() * 4) + 1))
 	{
 		case 1:
@@ -93,7 +94,7 @@ WormBoss.prototype.drawBody = function( bd, ground ){
 	body = world.CreateBody(bd);
 	this.collisionList.push( body );
 	this.fixture = body.CreateFixtureFromDef(fixtureDef);
-	this.fixture.userData = this;
+	
 	var prevBody = body;
 	
 	for (var i = 0; i < 3; i++) {
@@ -118,10 +119,14 @@ WormBoss.prototype.drawBody = function( bd, ground ){
 		var body = world.CreateBody( bd );
 		this.collisionList.push( body );
 		var fixture = body.CreateFixtureFromDef( fixtureDef );
+		if(i == 2)
+			fixture.userData = this;
 		var anchor = new b2Vec2(this.position.x, yOffset );
 		jd.InitializeAndCreate(prevBody, body, anchor);
 		prevBody = body;
 	}
+	
+	this.collisionList[0].SetTransform( this.collisionList[0].GetPosition(), -90 );
 	this.addToUpdate();
 }
 WormBoss.prototype.addToUpdate = function(){
@@ -148,27 +153,46 @@ WormBoss.prototype.addToUpdate = function(){
 		
 		position = self.args.WormBoss.collisionList[ 0 ].GetPosition();
 		
-		var yForce = 1500 * self.args.WormBoss.size * gravity;
-		if ( this.currentJumpIndex == 3 )
+		var yForce = 500 * self.args.WormBoss.size * gravity;
+		
+		if ( self.args.WormBoss.currentJumpIndex == 3 )
 		{
-			yForce *= 3;
+			yForce *= 2;
+		}
+		else
+		{
+			yForce *= 1;
 		}
 		var xForce = 0;
 		if ( directionFromTo( position.x, hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
+			if(self.args.WormBoss.dir == 0)
+			{
+				self.args.WormBoss.dir = 1;
+				self.args.WormBoss.collisionList[0].SetTransform( self.args.WormBoss.collisionList[0].GetPosition(), 360 );
+			}
+			
 			xForce = 2500 * self.args.WormBoss.size;
 			var force = new b2Vec2( xForce, yForce );
 			fixture.body.ApplyForce( force, position );
 		}
 		else{
+		
+			if(self.args.WormBoss.dir == 1)
+			{
+				self.args.WormBoss.dir = 0;
+				self.args.WormBoss.collisionList[0].SetTransform( self.args.WormBoss.collisionList[0].GetPosition(), -360 );
+			}
+			
 			xForce = -2500 * self.args.WormBoss.size;
 			var force = new b2Vec2( xForce, yForce );
 			fixture.body.ApplyForce( force, position );
 		}
-		this.currentJumpIndex++;
-		if ( this.currentJumpIndex == 3 )
+		
+		if ( self.args.WormBoss.currentJumpIndex == 3 )
 		{
-			this.currentJumpIndex = 0;
+			self.args.WormBoss.currentJumpIndex = 0;
 		}
+		self.args.WormBoss.currentJumpIndex++;
 	}, 0, 150, { WormBoss: this } ) );
 
 }
@@ -366,6 +390,7 @@ Orc.prototype.addToUpdate = function(){
 		var fixture = self.args.blob.fixture;	
 		
 		position = self.args.blob.collisionList[ 0 ].GetPosition();
+		
 		
 		var force = 1600;
 		if ( directionFromTo( position.x, hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
