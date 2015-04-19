@@ -59,9 +59,23 @@ function sfx(sfx) {
 				sfx = new Audio('./res/audio/sfx/hurt2.wav')
 			}
 			break;
+			
+		case 'wormboss_hit' :
+			if (randFloat < 0.5) {
+				sfx = new Audio('./res/audio/sfx/hurt.wav')
+			} else if (randFloat < 1) {
+				sfx = new Audio('./res/audio/sfx/hurt2.wav')
+			}
+			break;
+			
+		case 'wormboss_hurt' :
+			if (randFloat < 0.5) {
+				sfx = new Audio('./res/audio/sfx/hurt.wav')
+			} else if (randFloat < 1) {
+				sfx = new Audio('./res/audio/sfx/hurt2.wav')
+			}
+			break;
 		}
 	sfx.volume = 1;
 	sfx.play();
 	}
-	
-	
