@@ -19,6 +19,7 @@ function WormBoss( position ){
 	this.id = "WormBoss"+Math.floor((Math.random() * 100) + 1);
 	this.alive = true;
 	this.size = 20;
+	this.currentJumpIndex = 0;
 
 }
 
@@ -136,16 +137,22 @@ WormBoss.prototype.addToUpdate = function(){
 			self.args.WormBoss.damageCooldown--;
 		}
 	}, 0, 1, { WormBoss: this } ) );
-		currentScene.updateList.push( createUpdate( function( self ){
+	currentScene.updateList.push( createUpdate( function( self ){
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
-			self.delay = 100;
+			self.delay = 150;
 		}
+		
 		var fixture = self.args.WormBoss.fixture;	
 		
 		position = self.args.WormBoss.collisionList[ 0 ].GetPosition();
-		var yForce = 150 * self.args.WormBoss.size * gravity;
+		
+		var yForce = 1500 * self.args.WormBoss.size * gravity;
+		if ( this.currentJumpIndex == 3 )
+		{
+			yForce *= 3;
+		}
 		var xForce = 0;
 		if ( directionFromTo( position.x, hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
 			xForce = 2500 * self.args.WormBoss.size;
@@ -157,7 +164,12 @@ WormBoss.prototype.addToUpdate = function(){
 			var force = new b2Vec2( xForce, yForce );
 			fixture.body.ApplyForce( force, position );
 		}
-	}, 0, 100, { WormBoss: this } ) );
+		this.currentJumpIndex++;
+		if ( this.currentJumpIndex == 3 )
+		{
+			this.currentJumpIndex = 0;
+		}
+	}, 0, 150, { WormBoss: this } ) );
 
 }
 
@@ -281,7 +293,7 @@ Blob.prototype.addToUpdate = function(){
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
-			self.delay = 100;
+			self.delay = 150;
 		}
 		var fixture = self.args.blob.fixture;	
 		
@@ -299,7 +311,7 @@ Blob.prototype.addToUpdate = function(){
 			var force = new b2Vec2( xForce, yForce );
 			fixture.body.ApplyForce( force, position );
 		}
-	}, 0, 100, { blob: this } ) );
+	}, 0, 150, { blob: this } ) );
 
 }
 
