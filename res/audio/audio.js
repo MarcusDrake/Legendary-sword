@@ -1,12 +1,17 @@
 
-
+var currentTrack = undefined;
 function play(track) {
+	if ( currentTrack != undefined )
+	{
+		currentTrack.pause();
+		currentTrack.currentTime = 0;
+	}
 	switch( track ){
 		case 'intro' :
 			track = new Audio('./res/audio/intro.mp3')
 			track.addEventListener('ended', function() { 
 				play('intro_loop'); 
-				}, true );
+				}, false );
 			break;
 			
 		case 'intro_loop' :
@@ -27,6 +32,7 @@ function play(track) {
 		}
 	track.volume = 0.5;
 	track.play();
+	currentTrack = track;
 	}
 	
 function sfx(sfx) {
