@@ -98,8 +98,8 @@ Sword.prototype.drawBody = function(x,y)
 }
 
 function Hero(){
-	 this.health = 4;
-	 this.maxHealth = 4;
+	 this.health = 12;
+	 this.maxHealth = 12;
 	 this.damage = 0;
 	
 	 this.bodyTorso = null;
