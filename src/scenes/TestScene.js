@@ -20,6 +20,7 @@ TestScene.prototype.init = function() {
 	//this.map.readGrid();
 	this.updateList.push( createUpdate( function( self ){
 		self.args.map.updateAxis();
+		createMouseJoint();
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
@@ -34,8 +35,6 @@ TestScene.prototype.BeginContact = function( contact ) {
 	{
 		console.log( fixtureA, fixtureB );
 	}
-	
-	
 };
 
 TestScene.prototype.BeginContactBody = function( contact ) {
@@ -62,7 +61,6 @@ TestScene.prototype.Keyboard = function( char ) {
 	if ( char == "R" ) {
 		this.updateList.push( createUpdate( function( self ){
 			camera._rotation.y += 0.03;
-			console.log(  self.iterations );
 			if ( self.iterations == 0 )
 			{
 				self.iterations = 1;
