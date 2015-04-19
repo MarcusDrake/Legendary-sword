@@ -50,50 +50,86 @@ Sword.prototype.dealDamage = function( creature ){
 	this.damageCooldown = 20;
 	creature.takeDamage( this.damage );
 }
-Sword.prototype.drawBody = function(x,y)
+Sword.prototype.drawBody = function(x,y,sensor)
 {
-	var bodyDef = new b2BodyDef(x,y);
+	bodyDef = new b2BodyDef(x,y);
 	
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 	
 	//Sword
-	var box = new b2PolygonShape();
+	fixtureDef = new b2FixtureDef();
 	
+	var categoryBits = CATEGORY_DEFAULT;
+	var maskBits = MASK_DEFAULT;
 	
-	box.SetAsBoxXY(0.25*this.size, 6*this.size);
-	var fixtureDef = new b2FixtureDef();
-	
-	fixtureDef.filter.categoryBits = CATEGORY_SWORD;
-	fixtureDef.filter.maskBits = MASK_SWORD;
-	fixtureDef.shape = box;
+	if ( sensor != undefined )
+	{
+		sensor = true;
+		categoryBits = CATEGORY_SWORD;
+		maskBits = MASK_SWORD;
+	}
+	fixtureDef.filter.categoryBits = categoryBits;
+	fixtureDef.filter.maskBits = maskBits;
+	fixtureDef.shape = this.getBox();
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
-	fixtureDef.isSensor = true;
-	//fixtureDef.restitution=8.0;
+	if ( sensor != undefined )
+	{
+		fixtureDef.isSensor = sensor;
+	}
+	
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x-2.5*this.size, y-7*this.size);
 	this.bodySword = world.CreateBody(bodyDef);
 	this.swordSensor = this.bodySword.CreateFixtureFromDef(fixtureDef);
+	
+}
+Sword.prototype.drawGuard = function( x, y, multiplierY, sensor ){
+	var categoryBits = CATEGORY_DEFAULT;
+	var maskBits = MASK_DEFAULT;
+	
+	if ( sensor != undefined )
+	{
+		sensor = true;
+		categoryBits = CATEGORY_SWORD;
+		maskBits = MASK_SWORD;
+	}
+	var box = new b2PolygonShape();
+	box.SetAsBoxXYCenterAngle(1*this.size, 0.1*this.size, { x: x-17.5*this.size, y: y-multiplierY*this.size }, 0 );
+	var fixtureDef = new b2FixtureDef();
+	
+	fixtureDef.filter.categoryBits = categoryBits;
+	fixtureDef.filter.maskBits = maskBits;
+	fixtureDef.shape = box;
+	if ( sensor != undefined )
+	{
+		fixtureDef.isSensor = sensor;
+	}
+	this.bodySword.CreateFixtureFromDef(fixtureDef);
 	this.swordSensor.detail = "legendary_blade";
+}
+Sword.prototype.getBox = function(){
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(0.25*this.size, 6*this.size);
+	return box;
+}
+Sword.prototype.connectToHero = function()
+{
+	removeDialog( "hero" );
+	destroyBody( this.bodySword )
+	var heroPos = hero.getOrigin();
+	x = heroPos.x;
+	y = heroPos.y;
+	this.drawBody(x,y,true);
+	this.drawGuard(x,y,8,true);
 	
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 
 	var anchor = new b2Vec2(x-2.5*this.size, y-2*this.size);
 	jd.InitializeAndCreate(hero.bodyLeftArm, sword.bodySword, anchor);
-
-	var box = new b2PolygonShape();
-	box.SetAsBoxXYCenterAngle(1*this.size, 0.1*this.size, { x: x-17.5*this.size, y: y-29*this.size }, 0 );
-	var fixtureDef = new b2FixtureDef();
-	
-	fixtureDef.filter.categoryBits = 0;
-	fixtureDef.filter.maskBits = 0;
-	fixtureDef.shape = box;
-	
-	this.bodySword.CreateFixtureFromDef(fixtureDef);
-	
-
+	createMouseJoint();
 }
 
 function Hero(){
@@ -114,10 +150,13 @@ function Hero(){
 	 this.alive = true;
 	 this.legContactList = [];
 }
-
+Hero.prototype.getOrigin = function()
+{
+	var pos = this.bodyTorso.GetPosition();
+	return {x: pos.x - (1*this.size), y:pos.y }
+}
 Hero.prototype.drawBody = function(x,y){
 	var bodyDef = new b2BodyDef();
-	
 	//torso
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
@@ -264,9 +303,13 @@ Hero.prototype.drawBody = function(x,y){
 		this.bodyRightArm
 	];
 	
-	//this.addToUpdate();
+	this.addToUpdate();
 }
-/*
+Hero.prototype.proclaimCause = function()
+{
+	addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"hero","Hey fuck you!");
+}
+
 Hero.prototype.addToUpdate = function(){
 	
 	currentScene.updateList.push( createUpdate( function( self ){
@@ -276,7 +319,7 @@ Hero.prototype.addToUpdate = function(){
 		}
 		updatePositionDialog(self.args.hero.collisionList[0].GetPosition().x-8,self.args.hero.collisionList[0].GetPosition().y+10,"hero");
 	}, 0, 1, { hero: this } ) );
-}*/
+}
 Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 
 	var target = undefined;
@@ -297,12 +340,10 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 	{
 		return;
 	}
-	console.log(target.userData);
 	if ( target.userData != "block" )
 	{
 		return;
 	}
-	console.log("wwhooh");
 	if ( !beginContact )
 	{
 		var index = this.legContactList.indexOf( target );
@@ -313,7 +354,6 @@ Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 		this.legContactList.splice( index, 1 )
 		return;
 	}
-	console.log(target);
 	this.legContactList.push( target )
 }
 Hero.prototype.jump = function( fixture ){

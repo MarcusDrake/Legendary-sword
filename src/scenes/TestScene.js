@@ -20,7 +20,7 @@ TestScene.prototype.init = function() {
 	//this.map.readGrid();
 	this.updateList.push( createUpdate( function( self ){
 		self.args.map.updateAxis();
-		createMouseJoint();
+		//createMouseJoint();
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
@@ -32,7 +32,11 @@ TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 	//console.log( sword.bodySword );
-	hero.updateCanJump( true, fixtureA, fixtureB );
+	if ( hero != undefined )
+	{
+		hero.updateCanJump( true, fixtureA, fixtureB );
+	}
+	
 	if ( fixtureA == sword.swordSensor || fixtureB == sword.swordSensor )
 	{
 		sword.BeginContactBody( fixtureA, fixtureB );
@@ -50,7 +54,10 @@ TestScene.prototype.BeginContactBody = function( contact ) {
 };
 
 TestScene.prototype.EndContactBody = function( contact ) {
-	hero.updateCanJump( false, contact.GetFixtureA(), contact.GetFixtureB() );
+	if ( hero != undefined )
+	{
+		hero.updateCanJump( false, contact.GetFixtureA(), contact.GetFixtureB() );
+	}
 };
 
 TestScene.prototype.Keyboard = function( char ) {

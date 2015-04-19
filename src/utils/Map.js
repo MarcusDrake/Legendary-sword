@@ -292,11 +292,17 @@ Map.prototype.createCharacter = function( x, y, type ){
 	{
 		case CHARACTER_PLAYER :
 			
-			hero = new Hero();
 			sword = new Sword();
+			currentScene.updateList.push( createUpdate( function( self ){
+				hero = new Hero();
+				hero.drawBody(self.args.x,self.args.y+10);
+				currentScene.updateList.push( createUpdate( function( self ){
+					hero.proclaimCause();
+				}, 0, 100 ) );
+			}, 0, 50, {x:x,y:y} ) );
 			
-			hero.drawBody(x,y+10);
-			sword.drawBody(x,y+10);
+			sword.drawBody(x,y+3.7);
+			sword.drawGuard(x,y+10,29);
 			character = hero;
 			
 			break;
@@ -313,7 +319,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 			character.drawBody( x, y+1 );
 			break;
 	}
-	return character;
+	return sword;
 	
 }
 Map.prototype.updateAxis = function(){
@@ -321,6 +327,10 @@ Map.prototype.updateAxis = function(){
 	{
 		this.currentAxis = 0;
 		this.readGrid();
+		return;
+	}
+	if ( hero == undefined )
+	{
 		return;
 	}
 	if ( hero.collisionList[ 0 ].GetPosition().x != this.currentAxis )
