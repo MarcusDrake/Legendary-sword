@@ -263,6 +263,18 @@ Hero.prototype.drawBody = function(x,y){
 		this.bodyLeftArm,
 		this.bodyRightArm
 	];
+	
+	this.addToUpdate();
+}
+Hero.prototype.addToUpdate = function(){
+	
+	currentScene.updateList.push( createUpdate( function( self ){
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+		}
+		updatePositionDialog(self.args.hero.collisionList[0].GetPosition().x-8,self.args.hero.collisionList[0].GetPosition().y+10,"hero");
+	}, 0, 1, { hero: this } ) );
 }
 Hero.prototype.updateCanJump = function( beginContact, fixtureA, fixtureB ){
 	var target = undefined;

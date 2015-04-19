@@ -307,8 +307,10 @@ Map.prototype.createCharacter = function( x, y, type ){
 			
 			break;
 		case CHARACTER_BLOB :
-			var character = new Blob( {x:x,y:y} );
-			character.drawBody( this.bd, this.ground );
+			//var character = new Blob( {x:x,y:y} );
+			//character.drawBody( this.bd, this.ground );
+			character = new Blacksmith();
+			character.drawBody( x, y+1 );
 			break;
 			
 		case  CHARACTER_BLACKSMITH :
