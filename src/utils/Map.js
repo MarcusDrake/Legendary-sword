@@ -182,16 +182,16 @@ Map.prototype.createBlock = function( x, y, type ){
 	b1.SetAsBoxXY(0.5, 0.5);
 	this.bd.type = b2_kinematicBody;
 	this.bd.position.Set( x, y );
-	var body = world.CreateBody(this.bd);
-	var fixture = body.CreateFixtureFromShape( b1 );
 	switch( type ) {
 		case TILE_GROUND :
-		
+			
 		break;
 		case TILE_BREAKABLE :
 		
 		break;
 	}
+	var body = world.CreateBody(this.bd);
+	var fixture = body.CreateFixtureFromShape( b1 );
 	return body;
 }
 
@@ -216,14 +216,13 @@ Map.prototype.createLiquid = function( x, y, type ){
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
-	circle.radius = 0.4;
+	circle.radius = 0.5;
 	fd = new b2FixtureDef();
 	fd.shape = circle;
 	fd.density = 100;
 	bd = new b2BodyDef();
 	bd.type = b2_dynamicBody;
 	bd.position.Set( x, y );
-	
 	body = world.CreateBody(bd);
 	
 	var fixture = body.CreateFixtureFromDef(fd);
