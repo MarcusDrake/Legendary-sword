@@ -135,8 +135,8 @@ Sword.prototype.connectToHero = function()
 
 function Hero(){
 
-	 this.health = 2;
-	 this.maxHealth = 2;
+	 this.health = 2000;
+	 this.maxHealth = 2000;
 
 	 this.damage = 0;
 	
@@ -189,7 +189,7 @@ Hero.prototype.drawBody = function(x,y){
 	fixtureDef.filter.categoryBits = CATEGORY_BODY;
 	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
-	fixtureDef.density = 20;
+	fixtureDef.density = 21;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x+2.3*this.size, y-5*this.size);
@@ -214,7 +214,7 @@ Hero.prototype.drawBody = function(x,y){
 	fixtureDef.filter.categoryBits = CATEGORY_BODY;
 	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
-	fixtureDef.density = 20;
+	fixtureDef.density = 21;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x-0.3*this.size, y-5*this.size);

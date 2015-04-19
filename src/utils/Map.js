@@ -2,7 +2,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
-	this.axisOffset = 30;
+	this.axisOffset = 40;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -37,9 +37,18 @@ Map.prototype.shouldDraw = function( x, y ){
 Map.prototype.destroyBlock = function( x, y ){
 	if ( this.grid[ x ][ y ].content == undefined )
 	{
-		return;this.currentAxis
+		return;
 	}
-	destroyBody( this.grid[ x ][ y ].content );
+	if ( this.grid[ x ][ y ].content.userData == undefined )
+	{
+		return;
+	}
+	if ( this.grid[ x ][ y ].content.userData != "block" )
+	{
+		return;
+	}
+	
+	destroyBody( this.grid[ x ][ y ].content.body );
 	this.grid[ x ][ y ].content = undefined;
 }
 Map.prototype.destroyLiquid = function( x, y ){
@@ -202,8 +211,6 @@ Map.prototype.createBlock = function( x, y, type ){
 	fixtureDef.density = 100;
 	this.bd.type = b2_staticBody;
 	this.bd.position.Set( x, y );
-	var body = world.CreateBody(this.bd);
-	var fixture = body.CreateFixtureFromDef( fixtureDef );
 	switch( type ) {
 		case TILE_GROUND :
 			
@@ -215,7 +222,7 @@ Map.prototype.createBlock = function( x, y, type ){
 	var body = world.CreateBody(this.bd);
 	var fixture = body.CreateFixtureFromShape( b1 );
 	fixture.userData = "block";
-	return body;
+	return fixture;
 }
 
 Map.prototype.createLiquid = function( x, y, type ){
@@ -253,7 +260,7 @@ Map.prototype.createBoulder = function( x, y, type ){
 	
 	var fixture = body.CreateFixtureFromDef(fixtureDef);
 	fixture.userData = "block";
-	return body;
+	return fixture;
 }
 Map.prototype.createChain = function( x, y, type ){
 	var prevBody = this.ground;
