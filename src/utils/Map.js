@@ -220,7 +220,7 @@ Map.prototype.createBlock = function( x, y, type ){
 
 Map.prototype.createLiquid = function( x, y, type ){
 	// type = LIQUID_WATER or LIQUID_LAVA
-	var box = new b2PolygonShape();
+	/*var box = new b2PolygonShape();
 	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2( x, y ), 0);
 	this.particleSystem.SetRadius( 0.13 );
 	var particleGroupDef = new b2ParticleGroupDef();
@@ -236,7 +236,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 		break;
 	}
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
-	return this.particleSystem;
+	return this.particleSystem;*/
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();

@@ -101,6 +101,8 @@ WormBoss.prototype.drawBody = function( bd, ground ){
 		jd.collideConnected = false;
 		var box = new b2PolygonShape();
 
+		
+			
 		box.SetAsBoxXY(0.08 * this.size, 0.14 * this.size);
 
 		var fixtureDef = new b2FixtureDef();
@@ -109,6 +111,7 @@ WormBoss.prototype.drawBody = function( bd, ground ){
 		fixtureDef.shape = box;
 		fixtureDef.density = 0.0002;
 		fixtureDef.friction = 0;
+		
 		bd = new b2BodyDef();
 		bd.type = b2_dynamicBody;		
 
@@ -119,7 +122,9 @@ WormBoss.prototype.drawBody = function( bd, ground ){
 		this.collisionList.push( body );
 		var fixture = body.CreateFixtureFromDef( fixtureDef );
 		if(i == 2)
+		{
 			fixture.userData = this;
+		}
 		var anchor = new b2Vec2(this.position.x, yOffset );
 		jd.InitializeAndCreate(prevBody, body, anchor);
 		prevBody = body;
