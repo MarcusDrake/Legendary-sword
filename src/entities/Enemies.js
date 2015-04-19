@@ -4,6 +4,7 @@ function Blob( position ){
 	this.damage = 1;
 	this.damageCooldown = 0;
 	this.collisionList = [];
+	this.size = 12;
 }
 Blob.prototype.takeDamage = function(){
 
@@ -28,7 +29,7 @@ Blob.prototype.collideWith = function( fixture ){
 Blob.prototype.drawBody = function( bd, ground ){
 	var prevBody = null;
 	var box = new b2PolygonShape();
-	box.SetAsBoxXY(0.12, 0.24);
+	box.SetAsBoxXY(0.12*this.size, 0.24*this.size);
 	
 	fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = 0x0001
@@ -37,7 +38,7 @@ Blob.prototype.drawBody = function( bd, ground ){
 	fixtureDef.density = 7;
 	bd = new b2BodyDef();
 	bd.type = b2_dynamicBody;
-	bd.position.Set( this.position.x, this.position.y + 0.3 );
+	bd.position.Set( this.position.x, this.position.y + 0.3*this.size );
 	
 	body = world.CreateBody(bd);
 	this.collisionList.push( body );
@@ -49,7 +50,7 @@ Blob.prototype.drawBody = function( bd, ground ){
 		var jd = new b2RevoluteJointDef();
 		jd.collideConnected = false;
 		var box = new b2PolygonShape();
-		box.SetAsBoxXY(0.08, 0.16);
+		box.SetAsBoxXY(0.08*this.size, 0.16*this.size);
 		var fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = 0x0001
 	fixtureDef.filter.maskBits = 0xFFFF;
@@ -59,8 +60,8 @@ Blob.prototype.drawBody = function( bd, ground ){
 		bd = new b2BodyDef();
 		bd.type = b2_dynamicBody;
 		
-		var yOffset = this.position.y + ( i * 0.16 ) + 0.6;
-		bd.position.Set( this.position.x, yOffset + 0.05 );
+		var yOffset = this.position.y + ( i * 0.16*this.size ) + 0.6 ;
+		bd.position.Set( this.position.x, yOffset + 0.05*this.size );
 		var body = world.CreateBody( bd );
 		this.collisionList.push( body );
 		var fixture = body.CreateFixtureFromDef( fixtureDef );

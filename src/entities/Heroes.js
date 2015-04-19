@@ -243,11 +243,14 @@ Hero.prototype.collideWith = function( fixture ){
 Hero.prototype.takeDamage = function( damage ){
 	this.health -= damage;
 	
+	this.addblood = true;
+	
 	updateHealthBar(this.health, this.maxHealth);
 	if ( this.health <= 0 )
 	{
 		console.log( "DESTROYING" );
 		destroyBodies( this.collisionList );
+		
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		
