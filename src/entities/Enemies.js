@@ -4,10 +4,36 @@ function Blob( position ){
 	this.damage = 1;
 	this.damageCooldown = 0;
 	this.collisionList = [];
-	this.size = 12;
-}
-Blob.prototype.takeDamage = function(){
+	this.id = "blob"+Math.floor((Math.random() * 100) + 1);
+	this.alive = true;
+	this.size = 5;
 
+}
+Blob.prototype.takeDamage = function( damage ){
+	
+	
+	switch(Math.floor((Math.random() * 4) + 1))
+	{
+		case 1:
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Hey fuck you!");
+			break;
+		case 2:
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Ouch!!");
+			break;
+		case 3:
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,"Oh no you didn't! You are dead now");
+			break;
+		case 4:
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,":(");
+			break;
+	}
+	this.health -= damage;
+	if ( this.health <= 0 )
+	{
+		destroyBodies( this.collisionList );
+		removeDialog("blob"+this.id);
+		this.alive = false;
+	}
 }
 Blob.prototype.dealDamage = function( creature ){
 	if ( this.damageCooldown > 0 )
@@ -18,6 +44,7 @@ Blob.prototype.dealDamage = function( creature ){
 	creature.takeDamage( this.damage );
 }
 Blob.prototype.collideWith = function( fixture ){
+	
 	for ( i=0;i<hero.collisionList.length;i++ )
 	{
 		if ( hero.collisionList[ i ].fixtures.indexOf( fixture ) != -1 )
@@ -27,18 +54,22 @@ Blob.prototype.collideWith = function( fixture ){
 	}
 }
 Blob.prototype.drawBody = function( bd, ground ){
+	
 	var prevBody = null;
 	var box = new b2PolygonShape();
-	box.SetAsBoxXY(0.12*this.size, 0.24*this.size);
+
+	box.SetAsBoxXY(0.12 * this.size, 0.24 * this.size);
+
 	
 	fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_BODY;
+	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 7;
 	bd = new b2BodyDef();
 	bd.type = b2_dynamicBody;
-	bd.position.Set( this.position.x, this.position.y + 0.3*this.size );
+
+	bd.position.Set( this.position.x, this.position.y + (0.4 * this.size) );
 	
 	body = world.CreateBody(bd);
 	this.collisionList.push( body );
@@ -50,18 +81,22 @@ Blob.prototype.drawBody = function( bd, ground ){
 		var jd = new b2RevoluteJointDef();
 		jd.collideConnected = false;
 		var box = new b2PolygonShape();
-		box.SetAsBoxXY(0.08*this.size, 0.16*this.size);
+
+		box.SetAsBoxXY(0.08 * this.size, 0.14 * this.size);
+
 		var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+		fixtureDef.filter.categoryBits = CATEGORY_NON_BODY;
+		fixtureDef.filter.maskBits = MASK_NON_BODY;
 		fixtureDef.shape = box;
 		fixtureDef.density = 0.0001;
 		fixtureDef.friction = 0;
 		bd = new b2BodyDef();
 		bd.type = b2_dynamicBody;
 		
-		var yOffset = this.position.y + ( i * 0.16*this.size ) + 0.6 ;
-		bd.position.Set( this.position.x, yOffset + 0.05*this.size );
+
+		var yOffset = this.position.y + ( i * (0.16 * this.size) ) + (0.6 * this.size);
+		bd.position.Set( this.position.x, yOffset + (0.05 * this.size) );
+
 		var body = world.CreateBody( bd );
 		this.collisionList.push( body );
 		var fixture = body.CreateFixtureFromDef( fixtureDef );
@@ -72,17 +107,19 @@ Blob.prototype.drawBody = function( bd, ground ){
 	this.addToUpdate();
 }
 Blob.prototype.addToUpdate = function(){
+	
 	currentScene.updateList.push( createUpdate( function( self ){
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
 		}
+		updatePositionDialog(self.args.blob.collisionList[0].GetPosition().x,self.args.blob.collisionList[0].GetPosition().y,"blob"+self.args.blob.id);
 		if ( self.args.blob.damageCooldown > 0 )
 		{
 			self.args.blob.damageCooldown--;
 		}
 	}, 0, 1, { blob: this } ) );
-	currentScene.updateList.push( createUpdate( function( self ){
+		currentScene.updateList.push( createUpdate( function( self ){
 		if ( self.iterations == 0 )
 		{
 			self.iterations = 1;
@@ -94,12 +131,13 @@ Blob.prototype.addToUpdate = function(){
 		
 		var force = 2;
 		if ( directionFromTo( position.x, hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
-			fixture.body.ApplyForce( new b2Vec2( 75 * force, 85 * force ), { x: position.x, y: position.y } );
+			fixture.body.ApplyForce( new b2Vec2( 75 * (force * (self.args.blob.size*12)), 85 * (force * (self.args.blob.size*12)) ), { x: position.x, y: position.y } );
 		}
 		else{
-			fixture.body.ApplyForce( new b2Vec2( -75 * force, 85 * force ), { x: position.x, y: position.y } );
+			fixture.body.ApplyForce( new b2Vec2( -75 * (force * (self.args.blob.size*12)), 85 * (force * (self.args.blob.size*12)) ), { x: position.x, y: position.y } );
 		}
 	}, 0, 100, { blob: this } ) );
+
 }
 
 function Orc( position ){
@@ -154,12 +192,12 @@ Orc.prototype.addToUpdate = function(){
 		
 		position = self.args.blob.collisionList[ 0 ].GetPosition();
 		
-		var force = 2;
+		var force = 1600;
 		if ( directionFromTo( position.x, hero.collisionList[ 0 ].GetPosition().x ) == "right" ) {
-			fixture.body.ApplyForce( new b2Vec2( 75 * force, 85 * force ), { x: position.x, y: position.y } );
+			fixture.body.ApplyForce( new b2Vec2( (75 * force) * this.size, (85 * force) * this.size ), { x: position.x, y: position.y } );
 		}
 		else{
-			fixture.body.ApplyForce( new b2Vec2( -75 * force, 85 * force ), { x: position.x, y: position.y } );
+			fixture.body.ApplyForce( new b2Vec2( (-75 * force) * this.size, (85 * force) * this.size ), { x: position.x, y: position.y } );
 		}
 	}, 0, 100, { blob: this } ) );
 }

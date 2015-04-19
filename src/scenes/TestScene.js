@@ -5,6 +5,7 @@ function TestScene() {
 	camera.position.x = 4;
 	camera.position.y = 4;
 	camera.position.z = 12;
+	play('intro');
 	
 	world.SetContactListener( this );
 	
@@ -40,7 +41,11 @@ TestScene.prototype.BeginContact = function( contact ) {
 TestScene.prototype.BeginContactBody = function( contact ) {
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
-	
+	//console.log( sword.bodySword );
+	if ( fixtureA == sword.swordSensor || fixtureB == sword.swordSensor )
+	{
+		sword.BeginContactBody( fixtureA, fixtureB );
+	}
 	if ( fixtureA.userData == undefined || fixtureB.userData == undefined )
 	{
 		return;
