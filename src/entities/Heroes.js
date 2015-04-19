@@ -387,14 +387,13 @@ Hero.prototype.takeDamage = function( damage ){
 	updateHealthBar(this.health, this.maxHealth);
 	if ( this.health <= 0 )
 	{
+		
 		destroyBodies( this.collisionList );
 
 		destroyJoint( mouseJoint );
 		this.alive = false;
-		setTimeout(function() {$('#letterbox-full').fadeIn();}, 4000);
-
+		queueScene();
 		sfx('dead_hero');
-
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		

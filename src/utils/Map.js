@@ -127,10 +127,10 @@ Map.prototype.readGrid = function(){
 					}
 				break;
 				case tile.chain :
-					if ( this.shouldDraw( x, y ) )
+					/*if ( this.shouldDraw( x, y ) )
 					{
 						this.grid[ x ][ y ].content = this.createChain( x, y, OBJECT_CHAIN );
-					}
+					}*/
 				break;
 				case tile.boulder :
 					if ( this.shouldDraw( x, y ) )
@@ -228,8 +228,8 @@ Map.prototype.createBlock = function( x, y, type ){
 Map.prototype.createLiquid = function( x, y, type ){
 	// type = LIQUID_WATER or LIQUID_LAVA
 	var box = new b2PolygonShape();
-	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2( x, y ), 0);
-	this.particleSystem.SetRadius( 0.13 );
+	box.SetAsBoxXYCenterAngle(0.4, 0.4, new b2Vec2( x, y ), 0);
+	this.particleSystem.SetRadius( 0.2 );
 	var particleGroupDef = new b2ParticleGroupDef();
 	particleGroupDef.shape = box;
 	
@@ -319,6 +319,7 @@ Map.prototype.createCharacter = function( x, y, type ){
 			sword = new Sword();
 			currentScene.updateList.push( createUpdate( function( self ){
 				hero = new Hero();
+				
 				hero.drawBody(self.args.x,self.args.y+10);
 				currentScene.updateList.push( createUpdate( function( self ){
 					hero.proclaimCause();
@@ -400,5 +401,3 @@ function createBlood(x,y)
 
 	var particleGroup = bloodParticleSystem.CreateParticleGroup(particleGroupDef);
 }
-
-
