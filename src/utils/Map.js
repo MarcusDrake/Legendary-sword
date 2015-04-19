@@ -306,7 +306,6 @@ Map.prototype.createCharacter = function( x, y, type ){
 			var character = new Blob( {x:x,y:y} );
 			character.drawBody( this.bd, this.ground );
 			break;
-			
 		case  CHARACTER_BLACKSMITH :
 			character = new Blacksmith();
 			character.drawBody( x, y+1 );
@@ -333,3 +332,30 @@ Map.prototype.updateAxis = function(){
 	}
 	
 }
+
+var bloodParticleSystem;
+function createBlood(x,y)
+{
+	if(bloodParticleSystem !== undefined)
+		world.DestroyParticleSystem(bloodParticleSystem);
+	
+	this.body = world.CreateBody(this.bd);
+	this.psd = new b2ParticleSystemDef();
+	
+	this.psd.radius = 0.045;
+	this.psd.dampingStrength = 0.2;
+	bloodParticleSystem = world.CreateParticleSystem(this.psd);
+
+	var box = new b2PolygonShape();
+	box.SetAsBoxXYCenterAngle(0.5, 0.5, new b2Vec2( x, y ), 0);
+	bloodParticleSystem.SetRadius( 0.13 );
+	var particleGroupDef = new b2ParticleGroupDef();
+	particleGroupDef.shape = box;
+
+			
+	particleGroupDef.color.Set(255, 0, 0, 128);
+
+	var particleGroup = bloodParticleSystem.CreateParticleGroup(particleGroupDef);
+}
+
+
