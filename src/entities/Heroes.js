@@ -10,17 +10,23 @@ function Hero( fixture ){
 	this.fixture = fixture;
 }
 */
+
 Sword.prototype.drawBody = function(x,y)
 {
 	var bodyDef = new b2BodyDef(x,y);
 	
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
-	  
+	
 	//Sword
 	var box = new b2PolygonShape();
+	
+	
 	box.SetAsBoxXY(0.25*this.size, 6*this.size);
 	var fixtureDef = new b2FixtureDef();
+	
+	fixtureDef.filter.categoryBits = 0xFFFF;
+	fixtureDef.filter.maskBits = 0x0002;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -36,12 +42,16 @@ Sword.prototype.drawBody = function(x,y)
 	var anchor = new b2Vec2(x-2.5*this.size, y-2*this.size);
 	jd.InitializeAndCreate(hero.bodyLeftArm, sword.bodySword, anchor);
 	
-	
-	
+	/*
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	*/
 	
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 0.1*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0xFFFF;
+	fixtureDef.filter.maskBits = 0x0002;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -91,21 +101,27 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(2.5*this.size, 3*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001;
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
+	bodyDef.fixedRotation = true; 
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x + 1*this.size, y);
 	this.bodyTorso = world.CreateBody(bodyDef);
 	var fixture = this.bodyTorso.CreateFixtureFromDef(fixtureDef);
 	fixture.userData = this;
 
+	var bodyDef = new b2BodyDef();
 	//Left leg
 	jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -128,6 +144,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -150,6 +168,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0xFFFF;
+	fixtureDef.filter.maskBits = 0x0002;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -166,6 +186,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -186,6 +208,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1.5*this.size, 1.5*this.size);
 	var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;

@@ -6,6 +6,7 @@ function Map( grid ) {
 	this.axisOffset = 30;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
+	console.log( this.ground );
 	this.bd.allowSleep = false;
 	this.bd.position.Set(0, 1);
 	this.body = world.CreateBody(this.bd);
@@ -217,16 +218,18 @@ Map.prototype.createLiquid = function( x, y, type ){
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
 	circle.radius = 0.4;
-	fd = new b2FixtureDef();
-	fd.shape = circle;
-	fd.density = 100;
+	fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = circle;
+	fixtureDef.density = 100;
 	bd = new b2BodyDef();
 	bd.type = b2_dynamicBody;
 	bd.position.Set( x, y );
 	
 	body = world.CreateBody(bd);
 	
-	var fixture = body.CreateFixtureFromDef(fd);
+	var fixture = body.CreateFixtureFromDef(fixtureDef);
 	return body;
 }
 Map.prototype.createChain = function( x, y, type ){
@@ -237,6 +240,8 @@ Map.prototype.createChain = function( x, y, type ){
 		var box = new b2PolygonShape();
 		box.SetAsBoxXY(0.04, 0.08);
 		var fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001
+	fixtureDef.filter.maskBits = 0xFFFF;
 		fixtureDef.shape = box;
 		fixtureDef.density = 5;
 		fixtureDef.friction = 0.2;
@@ -263,6 +268,7 @@ Map.prototype.createRamp = function( x, y, type ){
 			shape.vertices[1] = new b2Vec2(0.5 + x, 0.5 + y),
 			shape.vertices[2] = new b2Vec2(-0.5 + x, -0.5 + y);
 			var fixture = this.ground.CreateFixtureFromShape(shape, 0);
+			console.log( fixture );
 			break;
 		case RAMP_STEEP_LEFT :
 			var shape = new b2PolygonShape();
@@ -316,7 +322,7 @@ Map.prototype.updateAxis = function(){
 	}
 	if ( hero.collisionList[ 0 ].GetPosition().x != this.currentAxis )
 	{
-		this.currentAxis = hero.collisionList[ 0 ].GetPosition().x;
+		this.currentAxis = sword.bodySword.GetPosition().x;
 		this.readGrid();
 	}
 	
