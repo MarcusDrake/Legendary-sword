@@ -7,6 +7,7 @@ function Blacksmith( position ){
 	this.size = 0.3;
 	this.id = "blacksmith"+Math.floor((Math.random() * 100) + 1);
 	this.alive = true;
+	this.depression = 5;
 }
 
 Blacksmith.prototype.takeDamage = function(){
@@ -17,28 +18,40 @@ Blacksmith.prototype.takeDamage = function(){
 	{
 		addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blacksmith"+this.id,"Ahaa what are you doing?!");
 		setTimeout(function() {addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","Oh i'm sorry that was a mistake");}, 1000);
-		
+		setTimeout(function() {removeDialog("hero");}, 5000);
 		
 	}
 	if(this.health == 3)
 	{
 		addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blacksmith"+this.id,"Aaaaa, it hurts so much!!");
 		setTimeout(function() {addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","IT'S NOT ME! IT'S NOT ME!");}, 1000);
-		
+		setTimeout(function() {removeDialog("hero");}, 5000);
 
 	}
-	if(this.health < 2)
+	if(this.health == 2)
 	{
 		addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blacksmith"+this.id,"Ghaaa....");
 		setTimeout(function() {addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","OHH GOD!! PLEASE MAKE IT STOP!");}, 1000);
-		
+		setTimeout(function() {removeDialog("hero");}, 5000);
 		
 	}
-	if(this.health < 0)
+	
+	sfx('hit');
+
+	if ( this.health <= 0 )
 	{
-		removeDialog("hero");
+		hero.depression += this.depression; 
+		updateDepressionBar(hero.depression, hero.maxDepression);
+		
+		destroyBodies( this.collisionList );
 		removeDialog("blacksmith"+this.id);
+		
+		addDialog(hero.collisionList[0].GetPosition().x,hero.collisionList[0].GetPosition().y,"hero","OOH NOW WHAT HAVE I DONE! I KILLED HIM.");
+		setTimeout(function() {removeDialog("hero");}, 5000);
+		
+		this.alive = false;
 	}
+	
 }
 Blacksmith.prototype.dealDamage = function( creature ){
 
