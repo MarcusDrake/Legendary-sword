@@ -88,7 +88,9 @@ function Hero(){
 }
 
 Hero.prototype.takeDamage = function( damage ){
+	sfx('hurt');
 	this.health -= damage;
+	// DEBUG:
 	console.log( this.health );
 }
 
@@ -249,6 +251,7 @@ Hero.prototype.takeDamage = function( damage ){
 	{
 		console.log( "DESTROYING" );
 		destroyBodies( this.collisionList );
+		sfx('dead_hero');
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		

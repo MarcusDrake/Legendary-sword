@@ -217,7 +217,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
-	circle.radius = 0.5;
+	circle.radius = 0.6;
 	fixtureDef = new b2FixtureDef();
 	fixtureDef.filter.categoryBits = 0x0001
 	fixtureDef.filter.maskBits = 0xFFFF;
