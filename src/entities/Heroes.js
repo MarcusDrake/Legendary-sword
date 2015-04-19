@@ -85,8 +85,7 @@ Sword.prototype.drawBody = function(x,y)
 	jd.InitializeAndCreate(hero.bodyLeftArm, sword.bodySword, anchor);
 
 	var box = new b2PolygonShape();
-	box.SetAsBoxXY(1*this.size, 0.1*this.size);
-	box.position.Set(x-2.5*this.size, y-7*this.size);
+	box.SetAsBoxXYCenterAngle(1*this.size, 0.1*this.size, { x: x-17.5*this.size, y: y-29*this.size }, 0 );
 	var fixtureDef = new b2FixtureDef();
 	
 	fixtureDef.filter.categoryBits = 0;

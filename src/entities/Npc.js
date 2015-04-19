@@ -267,7 +267,7 @@ BlobPet.prototype.dealDamage = function( creature ){
 BlobPet.prototype.drawBody = function( x, y ){
 	circle = new b2CircleShape();
 	circle.position.Set( 0, 0 );
-	circle.radius = 0.25;
+	circle.radius = 0.45;
 	
 	var particleSystem = world.CreateParticleSystem(currentScene.map.psd);
 	pgd = new b2ParticleGroupDef();

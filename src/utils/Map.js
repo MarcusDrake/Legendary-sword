@@ -272,7 +272,6 @@ Map.prototype.createRamp = function( x, y, type ){
 			shape.vertices[1] = new b2Vec2(0.5 + x, 0.5 + y),
 			shape.vertices[2] = new b2Vec2(-0.5 + x, -0.5 + y);
 			var fixture = this.ground.CreateFixtureFromShape(shape, 0);
-			console.log( fixture );
 			break;
 		case RAMP_STEEP_LEFT :
 			var shape = new b2PolygonShape();
@@ -318,11 +317,9 @@ Map.prototype.createCharacter = function( x, y, type ){
 Map.prototype.updateAxis = function(){
 	if ( this.currentAxis == null )
 	{
-
 		this.currentAxis = 0;
 		this.readGrid();
 		return;
-
 	}
 	if ( hero.collisionList[ 0 ].GetPosition().x != this.currentAxis )
 	{

@@ -10,7 +10,7 @@ function Blob( position ){
 
 }
 Blob.prototype.takeDamage = function( damage ){
-	
+
 	
 	switch(Math.floor((Math.random() * 4) + 1))
 	{
@@ -27,6 +27,9 @@ Blob.prototype.takeDamage = function( damage ){
 			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"blob"+this.id,":(");
 			break;
 	}
+
+	sfx('hit');
+
 	this.health -= damage;
 	if ( this.health <= 0 )
 	{
