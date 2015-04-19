@@ -235,7 +235,7 @@ Map.prototype.createLiquid = function( x, y, type ){
 		break;
 	}
 	var particleGroup = this.particleSystem.CreateParticleGroup(particleGroupDef);
-	return this.particleSystem;*/
+	return this.particleSystem;
 }
 Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
