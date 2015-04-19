@@ -51,8 +51,11 @@ WormBoss.prototype.takeDamage = function( damage ){
 		destroyBodies( this.collisionList );
 		var pos = this.collisionList[0].GetPosition();
 		setTimeout( function(){
-			console.log(  pos );
-			currentScene.map.createCharacter( 330, 13, CHARACTER_WAIFU );
+			addDialog(this.collisionList[0].GetPosition().x,this.collisionList[0].GetPosition().y,"hero","I didn't save my wife, but at least im a pro coder!");
+			setTimeout( function(){
+				$( '#theend' ).fadeIn();
+			}, 1500);
+			
 		},5 );
 		removeDialog("WormBoss"+this.id);
 		this.alive = false;

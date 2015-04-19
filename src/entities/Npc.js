@@ -539,7 +539,7 @@ function Waifu( position ){
 	this.damage = 1;
 	this.damageCooldown = 0;
 	this.collisionList = [];
-	this.size = 0.27;
+	this.size = 0.4;
 	this.id = "Waifu"+Math.floor((Math.random() * 100) + 1);
 }
 
@@ -565,12 +565,15 @@ Waifu.prototype.drawBody = function( x, y ){
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 	
-	console.log( box );
 	var box = new b2PolygonShape();
-	var xMod = 12.1;
-	var yMod = 3.5;
+	//var xMod = 12.1;
+	//var yMod = 3.5;
+	var xMod = 5.65;
+	var yMod = 2.45;
 	x -= xMod;
 	y -= yMod;
+	console.log( x );
+	console.log( y );
 	box.vertices[0] = new b2Vec2(x + 0.6, y -1 );
 	box.vertices[1] = new b2Vec2(x - 0.6, y -1 ),
 	box.vertices[2] = new b2Vec2(x, y + 1 );
@@ -582,7 +585,7 @@ Waifu.prototype.drawBody = function( x, y ){
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(x + 1*this.size, y);
+	bodyDef.position.Set(x + (1*this.size), y);
 	this.bodyTorso = world.CreateBody(bodyDef);
 	var fixture = this.bodyTorso.CreateFixtureFromDef(fixtureDef);
 	fixture.userData = this;

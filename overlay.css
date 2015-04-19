@@ -108,6 +108,11 @@ position: absolute;
 	background: rgb(0, 0, 0);
 }
 
+.letterbox-top>h1{
+	left:20%;
+	color: white;
+	position:relative;
+}
 .letterbox-bottom{
 	bottom:0px;
 	width: 100%;
@@ -150,4 +155,14 @@ position: absolute;
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
 }
+#theend{
+position:absolute;z-index:999999;width:100%;height:100%;background-color: black;
+display:none;
+}
 
+#theend>h1{
+left: 40%;
+top: 20%;
+color: white;
+position:relative;
+}

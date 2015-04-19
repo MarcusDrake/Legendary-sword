@@ -2,7 +2,7 @@
 function Map( grid ) {
 	this.grid = grid;
 	this.currentAxis = null;
-	this.axisOffset = 65;
+	this.axisOffset = 40;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
 	this.bd.allowSleep = false;
@@ -355,12 +355,12 @@ Map.prototype.createCharacter = function( x, y, type ){
 			character.drawBody( x, y+1 );
 			break;
 	}
-	return sword;	
+	return sword;
 }
 Map.prototype.updateAxis = function(){
 	if ( this.currentAxis == null )
 	{
-		this.currentAxis = 10;
+		this.currentAxis = 6;
 		this.readGrid();
 		return;
 	}
