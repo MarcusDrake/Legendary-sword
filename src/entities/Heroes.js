@@ -2,15 +2,55 @@ function Sword(){
 	this.bodySword;
 	this.bodyLower;
 	this.size = 0.4;
-
-}/*
-function Hero( fixture ){
-	this.health = 2;
-	this.damage = 0;
-	this.fixture = fixture;
+	this.active = false;
+	this.damageCooldown = 0;
+	this.damage = 5;
+	this.addToUpdate();
 }
-*/
-
+Sword.prototype.addToUpdate = function(){
+	currentScene.updateList.push( createUpdate( function( self ){
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+		}
+		if ( self.args.blob.damageCooldown > 0 )
+		{
+			self.args.blob.damageCooldown--;
+		}
+	}, 0, 1, { blob: this } ) );
+}
+Sword.prototype.BeginContactBody = function( fixtureA, fixtureB )
+{
+	if ( this.active == true )
+	{
+		var target = fixtureA;
+		if ( fixtureA == this.swordSensor )
+		{
+			target = fixtureB;
+		}
+		if ( target.userData != undefined )
+		{
+			if ( target.userData.alive == undefined )
+			{
+				return;
+			}
+			if ( target.userData == hero )
+			{
+				return;
+			}
+			this.dealDamage( target.userData );
+		}
+	}
+}
+Sword.prototype.dealDamage = function( creature ){
+	if ( this.damageCooldown > 0 )
+	{
+		return;
+	}
+	this.damageCooldown = 20;
+	console.log( creature );
+	creature.takeDamage( this.damage );
+}
 Sword.prototype.drawBody = function(x,y)
 {
 	var bodyDef = new b2BodyDef(x,y);
@@ -25,56 +65,48 @@ Sword.prototype.drawBody = function(x,y)
 	box.SetAsBoxXY(0.25*this.size, 6*this.size);
 	var fixtureDef = new b2FixtureDef();
 	
-	fixtureDef.filter.categoryBits = 0xFFFF;
-	fixtureDef.filter.maskBits = 0x0002;
+	fixtureDef.filter.categoryBits = CATEGORY_SWORD;
+	fixtureDef.filter.maskBits = MASK_SWORD;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
+	fixtureDef.isSensor = true;
 	//fixtureDef.restitution=8.0;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x-2.5*this.size, y-7*this.size);
 	this.bodySword = world.CreateBody(bodyDef);
-	this.bodySword.CreateFixtureFromDef(fixtureDef);
+	this.swordSensor = this.bodySword.CreateFixtureFromDef(fixtureDef);
+	this.swordSensor.detail = "legendary_blade";
 	
 	var jd = new b2RevoluteJointDef();
 	jd.collideConnected = false;
 
 	var anchor = new b2Vec2(x-2.5*this.size, y-2*this.size);
 	jd.InitializeAndCreate(hero.bodyLeftArm, sword.bodySword, anchor);
+
+	var box = new b2PolygonShape();
+	box.SetAsBoxXY(1*this.size, 0.1*this.size);
+	box.position.Set(x-2.5*this.size, y-7*this.size);
+	var fixtureDef = new b2FixtureDef();
 	
+	fixtureDef.filter.categoryBits = 0;
+	fixtureDef.filter.maskBits = 0;
+	fixtureDef.shape = box;
+	
+	this.bodySword.CreateFixtureFromDef(fixtureDef);
+	
+		
 	/*
 	fixtureDef.filter.categoryBits = 0x0001
 	fixtureDef.filter.maskBits = 0xFFFF;
 	*/
-	
-	var box = new b2PolygonShape();
-	box.SetAsBoxXY(1*this.size, 0.1*this.size);
-	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0xFFFF;
-	fixtureDef.filter.maskBits = 0x0002;
-	fixtureDef.shape = box;
-	fixtureDef.density = 20;
-	fixtureDef.friction = 0.2;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(x-2.5*this.size, y-3*this.size);
-	this.bodyLower = world.CreateBody(bodyDef);
-	this.bodyLower.CreateFixtureFromDef(fixtureDef);
-
-	var jd = new b2RevoluteJointDef();
-	jd.collideConnected = false;
-	jd.enableLimit = true;
-	jd.lowerAngle = 0 * Math.PI / 180;
-	jd.upperAngle = 0 * Math.PI / 180;
-	
-	var anchor = new b2Vec2(x-2-5*this.size, y-2.5*this.size);
-	jd.InitializeAndCreate(this.bodyLower, this.bodySword, anchor);
 	
 	
 
 }
 
 function Hero(){
-	 this.health = 2;
+	 this.health = 100;
 	 this.damage = 0;
 	
 	 this.bodyTorso = null;
@@ -85,11 +117,7 @@ function Hero(){
 	 this.bodyRightArm;
 	 this.collisionList = [];
 	 this.size = 0.4;
-}
-
-Hero.prototype.takeDamage = function( damage ){
-	this.health -= damage;
-	console.log( this.health );
+	 this.alive = true;
 }
 
 Hero.prototype.drawBody = function(x,y){
@@ -101,8 +129,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(2.5*this.size, 3*this.size);
 	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001;
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_BODY;
+	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -120,8 +148,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_BODY;
+	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -144,8 +172,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_BODY;
+	fixtureDef.filter.maskBits = MASK_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -168,8 +196,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0xFFFF;
-	fixtureDef.filter.maskBits = 0x0002;
+	fixtureDef.filter.categoryBits = CATEGORY_NON_BODY;
+	fixtureDef.filter.maskBits = MASK_NON_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -186,8 +214,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1*this.size, 2*this.size);
 	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_NON_BODY;
+	fixtureDef.filter.maskBits = MASK_NON_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -208,8 +236,8 @@ Hero.prototype.drawBody = function(x,y){
 	var box = new b2PolygonShape();
 	box.SetAsBoxXY(1.5*this.size, 1.5*this.size);
 	var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_NON_BODY;
+	fixtureDef.filter.maskBits = MASK_NON_BODY;
 	fixtureDef.shape = box;
 	fixtureDef.density = 20;
 	fixtureDef.friction = 0.2;
@@ -247,8 +275,10 @@ Hero.prototype.takeDamage = function( damage ){
 	this.health -= damage;
 	if ( this.health <= 0 )
 	{
-		console.log( "DESTROYING" );
 		destroyBodies( this.collisionList );
+		destroyJoint( mouseJoint );
+		this.alive = false;
+		
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		

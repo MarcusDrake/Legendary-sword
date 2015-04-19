@@ -1,4 +1,4 @@
-//DONT FUCKING CHANGE THESE!!!
+
 var dialogList = [[20,20,"blacksmith","Thank You! But Our Princess Is In Another Castle!"], [40,20,"princess","ohh nooo!!!"]];
 function Map( grid ) {
 	this.grid = grid;
@@ -6,7 +6,6 @@ function Map( grid ) {
 	this.axisOffset = 30;
 	this.bd = new b2BodyDef();
 	this.ground = world.CreateBody(this.bd);
-	console.log( this.ground );
 	this.bd.allowSleep = false;
 	this.bd.position.Set(0, 1);
 	this.body = world.CreateBody(this.bd);
@@ -181,10 +180,15 @@ Map.prototype.createBlock = function( x, y, type ){
 	// type = TILE_COLLISION, TILE_GROUND or TILE_BREAKABLE
 	var b1 = new b2PolygonShape();
 	b1.SetAsBoxXY(0.5, 0.5);
+	fixtureDef = new b2FixtureDef();
+	fixtureDef.filter.categoryBits = 0x0001;
+	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.shape = b1;
+	fixtureDef.density = 100;
 	this.bd.type = b2_kinematicBody;
 	this.bd.position.Set( x, y );
 	var body = world.CreateBody(this.bd);
-	var fixture = body.CreateFixtureFromShape( b1 );
+	var fixture = body.CreateFixtureFromDef( fixtureDef );
 	switch( type ) {
 		case TILE_GROUND :
 		
@@ -219,8 +223,8 @@ Map.prototype.createBoulder = function( x, y, type ){
 	var circle = new b2CircleShape();
 	circle.radius = 0.4;
 	fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+	fixtureDef.filter.categoryBits = CATEGORY_DEFAULT;
+	fixtureDef.filter.maskBits = MASK_DEFAULT;
 	fixtureDef.shape = circle;
 	fixtureDef.density = 100;
 	bd = new b2BodyDef();
@@ -240,8 +244,8 @@ Map.prototype.createChain = function( x, y, type ){
 		var box = new b2PolygonShape();
 		box.SetAsBoxXY(0.04, 0.08);
 		var fixtureDef = new b2FixtureDef();
-	fixtureDef.filter.categoryBits = 0x0001
-	fixtureDef.filter.maskBits = 0xFFFF;
+		fixtureDef.filter.categoryBits = CATEGORY_DEFAULT;
+		fixtureDef.filter.maskBits = MASK_DEFAULT;
 		fixtureDef.shape = box;
 		fixtureDef.density = 5;
 		fixtureDef.friction = 0.2;
