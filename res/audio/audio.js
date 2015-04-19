@@ -1,6 +1,7 @@
 
 var currentTrack = undefined;
 function play(track) {
+	repeat = true;
 	if ( currentTrack != undefined )
 	{
 		currentTrack.pause();
@@ -12,14 +13,11 @@ function play(track) {
 			track.addEventListener('ended', function() { 
 				play('intro_loop'); 
 				}, false );
+			repeat = false;
 			break;
 			
 		case 'intro_loop' :
 			track = new Audio('./res/audio/intro_loop.mp3')
-			track.addEventListener('ended', function() {
-				this.currentTime = 0;
-				this.play();
-			}, false);
 			break;
 			
 		case 'stage1' :
@@ -30,6 +28,13 @@ function play(track) {
 			track = new Audio('./res/audio/stage_2.mp3')
 			break;
 		}
+
+	if (repeat == true) {
+		track.addEventListener('ended', function() {
+			this.currentTime = 0;
+			this.play();
+		}, false);
+	};
 	track.volume = 0.5;
 	track.play();
 	currentTrack = track;
