@@ -5,6 +5,7 @@ function Blacksmith( position ){
 	this.damageCooldown = 0;
 	this.collisionList = [];
 	this.size = 0.3;
+	this.id = "blacksmith"+Math.floor((Math.random() * 100) + 1);
 }
 
 Blacksmith.prototype.takeDamage = function(){
@@ -233,62 +234,20 @@ Blacksmith.prototype.drawBody = function( x, y ){
 		this.bodyLeftArmHammer,
 		this.bodyLeftArmHammerTop
 	];
+	
+	this.addToUpdate();
 }
-/*
-function makeTextSprite( message, parameters )
-{
-	if ( parameters === undefined ) parameters = {};
-	
-	var fontface = parameters.hasOwnProperty("fontface") ? 
-		parameters["fontface"] : "Arial";
-	
-	var fontsize = parameters.hasOwnProperty("fontsize") ? 
-		parameters["fontsize"] : 18;
-	
-	var borderThickness = parameters.hasOwnProperty("borderThickness") ? 
-		parameters["borderThickness"] : 4;
-	
-	var borderColor = parameters.hasOwnProperty("borderColor") ?
-		parameters["borderColor"] : { r:0, g:0, b:0, a:1.0 };
-	
-	var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-		parameters["backgroundColor"] : { r:255, g:255, b:255, a:1.0 };
 
-
-	var canvas = document.createElement('canvas');
-	var context = canvas.getContext('2d');
-	context.font = "Bold " + fontsize + "px " + fontface;
-    
-	// get size data (height depends only on font size)
-	var metrics = context.measureText( message );
-	var textWidth = metrics.width;
+Blacksmith.prototype.addToUpdate = function(){
 	
-	// background color
-	context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
-								  + backgroundColor.b + "," + backgroundColor.a + ")";
-	// border color
-	context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + ","
-								  + borderColor.b + "," + borderColor.a + ")";
-
-	context.lineWidth = borderThickness;
-	//roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
-	// 1.4 is extra height factor for text below baseline: g,j,p,q.
-	
-	// text color
-	context.fillStyle = "rgba(0, 0, 0, 1.0)";
-
-	context.fillText( message, borderThickness, fontsize + borderThickness);
-	
-	// canvas contents will be used for a texture
-	var texture = new THREE.Texture(canvas) 
-	texture.needsUpdate = true;
-
-	var spriteMaterial = new THREE.SpriteMaterial( 
-		{ map: texture, useScreenCoordinates: false} );
-	var sprite = new THREE.Sprite( spriteMaterial );
-	sprite.scale.set(100,50,1.0);
-	return sprite;	
-}*/
+	currentScene.updateList.push( createUpdate( function( self ){
+		if ( self.iterations == 0 )
+		{
+			self.iterations = 1;
+		}
+		updatePositionDialog(self.args.blacksmith.collisionList[0].GetPosition().x,self.args.blacksmith.collisionList[0].GetPosition().y,"blacksmith"+self.args.blacksmith.id);
+	}, 0, 1, { blacksmith: this } ) );
+}
 
 
 function BlobPet(){
@@ -305,7 +264,7 @@ BlobPet.prototype.dealDamage = function( creature ){
 BlobPet.prototype.drawBody = function( x, y ){
 	circle = new b2CircleShape();
 	circle.position.Set( 0, 0 );
-	circle.radius = 0.25;
+	circle.radius = 0.45;
 	
 	var particleSystem = world.CreateParticleSystem(currentScene.map.psd);
 	pgd = new b2ParticleGroupDef();

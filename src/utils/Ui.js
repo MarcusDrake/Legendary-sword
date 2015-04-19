@@ -5,8 +5,19 @@ addDialog(10,10,"Pelle","whooo");
 addDialog(20,10,"Pelle2","whooo2");
 addDialog(30,10,"Pelle3","whooo3");
 addDialog(40,10,"Pelle4","whooo4");*/
-addDialog(50,10,"Pelle5","whooo5");
 
+function updatePositionDialog(x,y, name)
+{
+	for(i=0;i<dialogList.length;i++)
+	{
+		if(dialogList[i][2] == name)
+		{
+			dialogList[i][0] = x;
+			dialogList[i][1] = y;
+		}
+	}
+
+}
 function addDialog(x,y,name,text)
 {
 

@@ -97,8 +97,10 @@ Sword.prototype.drawBody = function(x,y)
 }
 
 function Hero(){
-	 this.health = 4;
-	 this.maxHealth = 4;
+
+	 this.health = 12;
+	 this.maxHealth = 12;
+
 	 this.damage = 0;
 	
 	 this.bodyTorso = null;
@@ -313,15 +315,20 @@ Hero.prototype.collideWith = function( fixture ){
 }
 Hero.prototype.takeDamage = function( damage ){
 	this.health -= damage;
+	this.addblood = true;
+
 	sfx('hurt');
+
 	updateHealthBar(this.health, this.maxHealth);
 	if ( this.health <= 0 )
 	{
 		destroyBodies( this.collisionList );
+
 		destroyJoint( mouseJoint );
 		this.alive = false;
 		
 		sfx('dead_hero');
+
 		//this.fixture.body.DestroyFixture(this.fixture);
 		
 		
